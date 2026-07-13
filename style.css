@@ -35,6 +35,16 @@ body {
     border-color: var(--accent-color);
 }
 
+/* 스탬프 획득 직후 딱 2번만 깜빡이는 연출 (무한 반복 아님) */
+@keyframes stampPingTwice {
+    0% { transform: scale(1); opacity: 0.6; }
+    70%, 100% { transform: scale(1.6); opacity: 0; }
+}
+.stamp-ping-twice {
+    animation: stampPingTwice 0.6s ease-out 2;
+    animation-fill-mode: forwards;
+}
+
 /* 네비게이션 활성/비활성 버튼 공통 클래스 */
 .nav-btn-active {
     padding: 0.375rem 0.75rem;

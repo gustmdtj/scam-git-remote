@@ -133,7 +133,7 @@
 
         let earnedStamps = JSON.parse(localStorage.getItem('earnedStamps')) || [];
 
-        function renderStampBoard() {
+        function renderStampBoard(justEarnedId = null) {
             const board = document.getElementById('stamp-board');
             const progress = document.getElementById('stamp-progress');
             board.innerHTML = '';
@@ -142,15 +142,18 @@
 
             stampSpots.forEach((spot) => {
                 const isEarned = earnedStamps.includes(spot.id);
+                const isJustEarned = spot.id === justEarnedId;
                 const stampCell = document.createElement('div');
                 stampCell.className = `flex flex-col items-center justify-center p-4 rounded-2xl border transition-all duration-500 ${isEarned ? 'bg-emerald-50 border-emerald-200' : 'bg-gray-100 border-gray-200 opacity-50'}`;
 
                 stampCell.innerHTML = `
                     <div class="w-14 h-14 rounded-full flex items-center justify-center border-2 border-dashed relative mb-2 ${isEarned ? 'bg-white border-emerald-400 text-emerald-600 scale-105' : 'bg-gray-200 border-gray-300 text-gray-400'}">
                         ${isEarned ? `
-                            <svg class="w-10 h-10 animate-ping absolute opacity-20 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            ${isJustEarned ? `
+                            <svg class="w-10 h-10 stamp-ping-twice absolute opacity-60 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
+                            ` : ``}
                             <svg class="w-10 h-10 text-[var(--accent-color)]" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <circle cx="50" cy="50" r="45" stroke="currentColor" stroke-width="4" stroke-dasharray="4 4"/>
                                 <path d="M30 65 L50 35 L70 65 Z" fill="none" stroke="currentColor" stroke-width="4"/>
@@ -220,7 +223,7 @@
 
                 openCustomAlert("🎉 정답입니다!", `<strong>${spot.name}</strong> 퀴즈를 풀고 전주 영광의 대숲 스탬프 도장을 찍었습니다.`);
 
-                renderStampBoard();
+                renderStampBoard(activeSpotId);
                 initQuizDropdown();
                 select.value = activeSpotId;
                 loadQuiz();
@@ -242,6 +245,12 @@
             renderStampBoard();
             initQuizDropdown();
             loadQuiz();
+
+            document.getElementById('quiz-answer-input').addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    checkQuizAnswer();
+                }
+            });
         };
     </script>
 </body>
