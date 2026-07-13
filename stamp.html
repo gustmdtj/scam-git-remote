@@ -24,16 +24,18 @@
 </head>
 <body class="min-h-screen relative overflow-x-hidden pb-20">
 
+    <!-- Scroll Progress -->
+    <div id="scroll-progress"></div>
+
     <!-- [NAVIGATION] -->
     <nav class="sticky top-0 z-40 bg-[#F1F5F2]/90 backdrop-blur-md border-b border-[var(--card-border)] py-4 px-6">
         <div class="max-w-6xl mx-auto flex justify-between items-center">
-            <a href="spots.html" class="font-serif font-bold text-lg tracking-widest text-[var(--accent-color)]">
+            <a href="index.html" class="font-serif font-bold text-lg tracking-widest text-[var(--accent-color)]">
                 I AM : JEONJU
             </a>
             <div class="flex flex-wrap gap-1 md:gap-2 justify-end">
-                <a href="spots.html" class="nav-btn-inactive">🌿 감성 스폿</a>
+                <a href="index.html" class="nav-btn-inactive">🌿 여행 스팟</a>
                 <a href="stamp.html" class="nav-btn-active">🎯 스탬프 투어</a>
-                <a href="crossword.html" class="nav-btn-inactive">🧩 십자말풀이</a>
                 <a href="guestbook.html" class="nav-btn-inactive">✍️ 방명록</a>
             </div>
         </div>
@@ -241,6 +243,33 @@
             initQuizDropdown();
             loadQuiz();
         };
+
+        /* ===========================
+   Scroll Progress
+=========================== */
+
+function updateScrollProgress(){
+
+    const scrollTop =
+        window.pageYOffset ||
+        document.documentElement.scrollTop;
+
+    const documentHeight =
+        document.documentElement.scrollHeight -
+        document.documentElement.clientHeight;
+
+    const percent =
+        (scrollTop / documentHeight) * 100;
+
+    document.getElementById("scroll-progress").style.width =
+        percent + "%";
+}
+
+window.addEventListener("scroll", updateScrollProgress);
+
+window.addEventListener("load", updateScrollProgress);
+
+window.addEventListener("resize", updateScrollProgress);
     </script>
 </body>
 </html>

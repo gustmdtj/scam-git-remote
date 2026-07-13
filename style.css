@@ -66,3 +66,44 @@ body {
 .nav-btn-inactive:hover {
     background-color: rgba(78, 135, 82, 0.1);
 }
+
+/* ===========================
+   Scroll Progress Bar
+=========================== */
+
+#scroll-progress{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 0%;
+    height: 4px;
+    z-index: 9999;
+
+    background: linear-gradient(
+        90deg,
+        #4E8752,
+        #77B17C,
+        #9ED3A2
+    );
+
+    border-radius: 0 999px 999px 0;
+
+    transition: width .08s linear;
+
+    box-shadow:
+        0 0 8px rgba(78,135,82,.45),
+        0 0 14px rgba(78,135,82,.25);
+}
+
+#scroll-progress::after{
+    content:"";
+    position:absolute;
+    right:-7px;
+    top:50%;
+    transform:translateY(-50%);
+    width:14px;
+    height:14px;
+    border-radius:50%;
+    background:#4E8752;
+    box-shadow:0 0 14px rgba(78,135,82,.6);
+}
