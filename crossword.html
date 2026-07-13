@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I AM : JEONJU - 십자말풀이</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        serif: ['Gowun Batang', 'serif'],
+                        sans: ['Noto Sans KR', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="min-h-screen relative overflow-x-hidden pb-20">
+
+    <!-- [NAVIGATION] -->
+    <nav class="sticky top-0 z-40 bg-[#F1F5F2]/90 backdrop-blur-md border-b border-[var(--card-border)] py-4 px-6">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <a href="spots.html" class="font-serif font-bold text-lg tracking-widest text-[var(--accent-color)]">
+                I AM : JEONJU
+            </a>
+            <div class="flex flex-wrap gap-1 md:gap-2 justify-end">
+                <a href="spots.html" class="nav-btn-inactive">🌿 감성 스폿</a>
+                <a href="stamp.html" class="nav-btn-inactive">🎯 스탬프 투어</a>
+                <a href="crossword.html" class="nav-btn-active">🧩 십자말풀이</a>
+                <a href="guestbook.html" class="nav-btn-inactive">✍️ 방명록</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-4xl mx-auto px-6 py-12">
+        <div class="text-center pt-8 pb-12">
+            <span class="text-xs uppercase tracking-widest font-bold text-[var(--accent-color)] px-3.5 py-1.5 rounded-full bg-[var(--accent-color)]/10 inline-block mb-4">
+                CROSSWORD
+            </span>
+            <h2 class="font-serif text-3xl md:text-4xl font-bold text-[var(--text-main)] mb-3">🧩 전주 로컬 십자말풀이</h2>
+            <p class="text-xs md:text-sm opacity-80 text-[var(--text-muted)]">격자판의 빈칸을 클릭해 가로/세로 힌트를 읽고 전주 퍼즐을 맞춰보세요!</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
+
+            <!-- 왼쪽: 십자말 격자 보드 -->
+            <div class="md:col-span-7 bg-[var(--card-bg)] border border-[var(--card-border)] p-6 rounded-3xl card-shadow flex flex-col items-center">
+                <div class="grid grid-cols-5 gap-1.5 w-full max-w-[340px]" id="crossword-grid"></div>
+
+                <div class="mt-6 flex gap-3">
+                    <button onclick="checkCrossword()" class="bg-[var(--accent-color)] hover:bg-[var(--text-main)] text-white text-xs font-bold px-4 py-2 rounded-lg transition-colors">
+                        맞춤 확인하기
+                    </button>
+                    <button onclick="resetCrossword()" class="border border-[var(--card-border)] hover:bg-gray-100 text-xs font-bold px-4 py-2 rounded-lg transition-colors">
+                        다시 쓰기
+                    </button>
+                </div>
+            </div>
+
+            <!-- 오른쪽: 가로 세로 힌트 가이드 -->
+            <div class="md:col-span-5 space-y-6">
+
+                <div class="bg-[var(--card-bg)] border border-[var(--card-border)] p-5 rounded-2xl card-shadow">
+                    <h4 class="font-serif text-base font-bold mb-3 text-[var(--accent-color)] flex items-center gap-1.5 border-b pb-2">
+                        <span>➡️ 가로 열쇠</span>
+                    </h4>
+                    <ul class="space-y-3 text-xs leading-relaxed text-[var(--text-muted)]">
+                        <li><strong>[가로 1]</strong> 기와 지붕의 정취를 느낄 수 있는 교동 일대 명소</li>
+                        <li><strong>[가로 2]</strong> 20대들이 자주 찾는 트렌디한 로컬 카페거리</li>
+                        <li><strong>[가로 3]</strong> 연꽃과 전통 한옥 도서관 연화정이 있는 곳</li>
+                    </ul>
+                </div>
+
+                <div class="bg-[var(--card-bg)] border border-[var(--card-border)] p-5 rounded-2xl card-shadow">
+                    <h4 class="font-serif text-base font-bold mb-3 text-[var(--accent-color)] flex items-center gap-1.5 border-b pb-2">
+                        <span>⬇️ 세로 열쇠</span>
+                    </h4>
+                    <ul class="space-y-3 text-xs leading-relaxed text-[var(--text-muted)]">
+                        <li><strong>[세로 1]</strong> 전주에서 가장 유명한 밥 도둑 전통 음식</li>
+                        <li><strong>[세로 2]</strong> 계절마다 장미와 습지 가득한 비밀 정원</li>
+                    </ul>
+                </div>
+
+                <div id="crossword-success" class="hidden bg-emerald-50 border border-emerald-200 p-5 rounded-2xl text-center">
+                    <span class="text-3xl block">🏆</span>
+                    <h5 class="font-serif text-lg font-bold text-emerald-800 mt-2">십자말풀이 완료!</h5>
+                    <p class="text-[11px] text-emerald-600 mt-1">당신을 '전주 최고 명예 토박이'로 인정합니다.</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- [MODAL DIALOG (알림 팝업)] -->
+    <div id="info-modal" class="fixed inset-0 z-50 bg-black/60 hidden flex items-center justify-center p-4">
+        <div class="bg-white text-gray-800 rounded-2xl max-w-md w-full p-6 shadow-2xl relative transform transition-all duration-300 scale-95 opacity-0" id="modal-content">
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 focus:outline-none text-xl">
+                ✕
+            </button>
+            <div id="modal-body-content"></div>
+            <div class="mt-6 pt-4 border-t border-gray-100 flex justify-end">
+                <button onclick="closeModal()" class="bg-[#1B2A20] text-white px-5 py-2 rounded-lg text-xs font-semibold hover:bg-[#4E8752] transition-colors">
+                    전주 가이드 닫기
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="modal.js"></script>
+    <script>
+        // --- 십자말풀이 (Crossword) 핵심 로직 ---
+        const crosswordLayout = [
+            ['한', '옥', '마', '을', 0],
+            ['옥',   0,   0, '물', 0],
+            ['객', '리', '단', '길', 0],
+            [ 0,   0,   0, '전', 0],
+            ['덕', '진', '공', '원', 0]
+        ];
+
+        const crosswordLabels = [
+            ['1',  '',  '',  '',  ''],
+            ['',   '',  '', '2',  ''],
+            ['3',  '',  '',  '',  ''],
+            ['',   '',  '',  '',  ''],
+            ['4',  '',  '',  '',  '']
+        ];
+
+        function initCrossword() {
+            const gridContainer = document.getElementById('crossword-grid');
+            gridContainer.innerHTML = '';
+
+            for (let r = 0; r < 5; r++) {
+                for (let c = 0; c < 5; c++) {
+                    const char = crosswordLayout[r][c];
+                    const label = crosswordLabels[r][c];
+                    const cell = document.createElement('div');
+                    cell.className = "relative w-full aspect-square flex items-center justify-center rounded-lg border";
+
+                    if (char === 0) {
+                        cell.className += " bg-[#1B2A20]/20 border-transparent";
+                    } else {
+                        cell.className += " bg-white border-[var(--card-border)] card-shadow";
+
+                        if (label) {
+                            cell.innerHTML += `<span class="absolute top-1 left-1.5 text-[8px] font-bold text-[var(--accent-color)]">${label}</span>`;
+                        }
+
+                        cell.innerHTML += `
+                            <input type="text" maxlength="1" data-row="${r}" data-col="${c}"
+                                   class="crossword-input w-full h-full bg-transparent text-center font-bold text-sm md:text-base text-[var(--text-main)] pt-2 focus:outline-none">
+                        `;
+                    }
+                    gridContainer.appendChild(cell);
+                }
+            }
+        }
+
+        function checkCrossword() {
+            const inputs = document.querySelectorAll('.crossword-input');
+            let allCorrect = true;
+
+            inputs.forEach(input => {
+                const r = parseInt(input.dataset.row);
+                const c = parseInt(input.dataset.col);
+                const userChar = input.value.trim();
+                const correctChar = crosswordLayout[r][c];
+
+                if (userChar !== correctChar) {
+                    allCorrect = false;
+                    input.parentElement.classList.add('border-red-300', 'bg-red-50');
+                    input.parentElement.classList.remove('border-emerald-300', 'bg-emerald-50');
+                } else {
+                    input.parentElement.classList.remove('border-red-300', 'bg-red-50');
+                    input.parentElement.classList.add('border-emerald-300', 'bg-emerald-50');
+                }
+            });
+
+            const congrats = document.getElementById('crossword-success');
+            if (allCorrect) {
+                congrats.classList.remove('hidden');
+                openCustomAlert("🏆 대성공!", "십자말풀이를 모두 풀었습니다! 당신은 멋진 전주 명예 전문가입니다.");
+            } else {
+                congrats.classList.add('hidden');
+                openCustomAlert("❌ 퍼즐 오완성", "빨갛게 체크된 글자들을 유심히 살펴보고 다시 수정해보세요!");
+            }
+        }
+
+        function resetCrossword() {
+            const inputs = document.querySelectorAll('.crossword-input');
+            inputs.forEach(input => {
+                input.value = '';
+                input.parentElement.className = "relative w-full aspect-square flex items-center justify-center rounded-lg border bg-white border-[var(--card-border)] card-shadow";
+            });
+            document.getElementById('crossword-success').classList.add('hidden');
+        }
+
+        window.onload = function() {
+            initCrossword();
+        };
+    </script>
+</body>
+</html>

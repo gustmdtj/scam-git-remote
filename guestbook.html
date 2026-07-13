@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I AM : JEONJU - 방명록</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        serif: ['Gowun Batang', 'serif'],
+                        sans: ['Noto Sans KR', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="min-h-screen relative overflow-x-hidden pb-20">
+
+    <!-- [NAVIGATION] -->
+    <nav class="sticky top-0 z-40 bg-[#F1F5F2]/90 backdrop-blur-md border-b border-[var(--card-border)] py-4 px-6">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <a href="spots.html" class="font-serif font-bold text-lg tracking-widest text-[var(--accent-color)]">
+                I AM : JEONJU
+            </a>
+            <div class="flex flex-wrap gap-1 md:gap-2 justify-end">
+                <a href="spots.html" class="nav-btn-inactive">🌿 감성 스폿</a>
+                <a href="stamp.html" class="nav-btn-inactive">🎯 스탬프 투어</a>
+                <a href="crossword.html" class="nav-btn-inactive">🧩 십자말풀이</a>
+                <a href="guestbook.html" class="nav-btn-active">✍️ 방명록</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-4xl mx-auto px-6 py-12">
+        <div class="text-center pt-8 pb-12">
+            <span class="text-xs uppercase tracking-widest font-bold text-[var(--accent-color)] px-3.5 py-1.5 rounded-full bg-[var(--accent-color)]/10 inline-block mb-4">
+                Visitor Log
+            </span>
+            <h2 class="font-serif text-3xl md:text-4xl font-bold text-[var(--text-main)] mb-3">✍️ 다정한 방명록</h2>
+            <p class="text-xs md:text-sm opacity-80 text-[var(--text-muted)]">전주 가이드를 읽고 느꼈던 마음이나 다녀간 흔적을 따뜻하게 남겨보세요.</p>
+        </div>
+
+        <!-- 방명록 입력 Form -->
+        <div class="bg-[var(--card-bg)] border border-[var(--card-border)] p-6 rounded-2xl card-shadow mb-12 max-w-lg mx-auto">
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-[var(--text-muted)] mb-1">작성자 명</label>
+                    <input type="text" id="guest-name" placeholder="닉네임이나 이름을 남겨주세요"
+                           class="w-full bg-[var(--bg-color)] border border-[var(--card-border)] rounded-xl px-4 py-2.5 text-xs md:text-sm focus:outline-none focus:ring-1 focus:ring-[var(--accent-color)] text-[var(--text-main)] font-semibold">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-[var(--text-muted)] mb-1">전하고 싶은 말</label>
+                    <textarea id="guest-message" rows="3" placeholder="다녀갑니다! 전주 대숲의 싱그러운 테마가 무척 멋지네요."
+                              class="w-full bg-[var(--bg-color)] border border-[var(--card-border)] rounded-xl px-4 py-3 text-xs md:text-sm focus:outline-none focus:ring-1 focus:ring-[var(--accent-color)] text-[var(--text-main)] font-medium resize-none"></textarea>
+                </div>
+                <button onclick="addGuestMessage()" class="w-full bg-[var(--accent-color)] hover:bg-[var(--text-main)] text-white text-xs md:text-sm font-bold py-3 rounded-xl transition-colors">
+                    흔적 남기기
+                </button>
+            </div>
+        </div>
+
+        <!-- 등록된 방명록 리스트 -->
+        <div class="max-w-lg mx-auto">
+            <h4 class="font-serif text-lg font-bold border-b border-[var(--text-main)]/10 pb-2 mb-6 flex items-center justify-between">
+                <span>💬 속삭인 이야기들</span>
+                <span id="guestbook-count" class="text-xs font-bold font-sans text-[var(--accent-color)]">총 0개</span>
+            </h4>
+
+            <div id="guest-messages-container" class="space-y-4"></div>
+        </div>
+    </div>
+
+    <!-- [FOOTER] -->
+    <footer class="max-w-4xl mx-auto text-center px-6 py-12 border-t border-[var(--text-main)]/10 mt-16">
+        <p class="font-serif text-lg font-bold">"나의 오래된 전주가 당신에게도 좋은 쉼표가 되기를."</p>
+    </footer>
+
+    <script>
+        // --- 방명록 (Guestbook) 로컬 스토리지 기반 관리 ---
+        const defaultGuestMessages = [
+            { id: 1, name: "잎새", message: "초록초록한 대숲 테마에 어우러지는 전주 감성 공간 소개들이 정말 마음을 편안하게 만듭니다. 덕진공원은 꼭 갈거예요!", date: "2026.07.13" },
+            { id: 2, name: "여행하는 뚜벅이", message: "실전 로컬 팁 너무 유익하네요! 주말 버스 환승이나 킥보드 주의사항 덕분에 헛고생 줄일 것 같습니다.", date: "2026.07.13" }
+        ];
+
+        let guestMessages = JSON.parse(localStorage.getItem('guestMessages')) || defaultGuestMessages;
+        if (!localStorage.getItem('guestMessages')) {
+            localStorage.setItem('guestMessages', JSON.stringify(guestMessages));
+        }
+
+        function renderGuestbook() {
+            const container = document.getElementById('guest-messages-container');
+            const countLabel = document.getElementById('guestbook-count');
+
+            container.innerHTML = '';
+            countLabel.textContent = `총 ${guestMessages.length}개`;
+
+            if (guestMessages.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-12 bg-[var(--card-bg)] rounded-2xl border border-dashed border-[var(--card-border)] opacity-60">
+                        <p class="text-xs font-bold">아직 남겨진 이야기가 없습니다. ✍️</p>
+                        <p class="text-[10px] mt-1">첫 번째 따스한 한 마디를 남겨주세요!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            guestMessages.forEach(msg => {
+                const card = document.createElement('div');
+                card.className = "bg-[var(--card-bg)] border border-[var(--card-border)] p-5 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 relative group";
+                card.innerHTML = `
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="font-serif font-bold text-sm text-[var(--accent-color)]">${msg.name}</span>
+                        <span class="text-[10px] text-[var(--text-muted)] opacity-60">${msg.date}</span>
+                    </div>
+                    <p class="text-xs md:text-sm leading-relaxed text-[var(--text-muted)] font-medium">
+                        ${msg.message}
+                    </p>
+                    <button onclick="deleteGuestMessage(${msg.id})" class="absolute top-4 right-4 text-[10px] text-gray-400 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-all font-bold">
+                        삭제
+                    </button>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function addGuestMessage() {
+            const nameInput = document.getElementById('guest-name');
+            const msgInput = document.getElementById('guest-message');
+
+            const name = nameInput.value.trim();
+            const message = msgInput.value.trim();
+
+            if (!name || !message) return;
+
+            const today = new Date();
+            const formattedDate = `${today.getFullYear()}.${String(today.getMonth() + 1).padStart(2, '0')}.${String(today.getDate()).padStart(2, '0')}`;
+
+            const newMessage = {
+                id: Date.now(),
+                name: name,
+                message: message,
+                date: formattedDate
+            };
+
+            guestMessages.unshift(newMessage);
+            localStorage.setItem('guestMessages', JSON.stringify(guestMessages));
+            nameInput.value = '';
+            msgInput.value = '';
+            renderGuestbook();
+        }
+
+        function deleteGuestMessage(id) {
+            guestMessages = guestMessages.filter(msg => msg.id !== id);
+            localStorage.setItem('guestMessages', JSON.stringify(guestMessages));
+            renderGuestbook();
+        }
+
+        window.onload = function() {
+            renderGuestbook();
+        };
+    </script>
+</body>
+</html>

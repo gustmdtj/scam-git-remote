@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I AM : JEONJU - 스탬프 투어</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        serif: ['Gowun Batang', 'serif'],
+                        sans: ['Noto Sans KR', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="min-h-screen relative overflow-x-hidden pb-20">
+
+    <!-- [NAVIGATION] -->
+    <nav class="sticky top-0 z-40 bg-[#F1F5F2]/90 backdrop-blur-md border-b border-[var(--card-border)] py-4 px-6">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <a href="spots.html" class="font-serif font-bold text-lg tracking-widest text-[var(--accent-color)]">
+                I AM : JEONJU
+            </a>
+            <div class="flex flex-wrap gap-1 md:gap-2 justify-end">
+                <a href="spots.html" class="nav-btn-inactive">🌿 감성 스폿</a>
+                <a href="stamp.html" class="nav-btn-active">🎯 스탬프 투어</a>
+                <a href="crossword.html" class="nav-btn-inactive">🧩 십자말풀이</a>
+                <a href="guestbook.html" class="nav-btn-inactive">✍️ 방명록</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-5xl mx-auto px-6 py-12">
+        <div class="text-center pt-8 pb-12">
+            <span class="text-xs uppercase tracking-widest font-bold text-[var(--accent-color)] px-3.5 py-1.5 rounded-full bg-[var(--accent-color)]/10 inline-block mb-4">
+                STAMP TOUR
+            </span>
+            <h2 class="font-serif text-3xl md:text-4xl font-bold text-[var(--text-main)] mb-3">🎯 전주 초성 퀴즈 스탬프 도감</h2>
+            <p class="text-xs md:text-sm opacity-80 text-[var(--text-muted)]">힌트를 읽고 초성을 풀어 전주 로컬 가이드 지도 위에 도장을 수집해 보세요!</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+
+            <!-- 왼쪽: 도감 현황 지도 판넬 -->
+            <div class="lg:col-span-5 bg-[var(--card-bg)] border border-[var(--card-border)] p-6 rounded-3xl card-shadow">
+                <h4 class="font-serif text-lg font-bold mb-4 flex justify-between items-center pb-2 border-b">
+                    <span>🗺️ 나의 가상 전주 지도</span>
+                    <span id="stamp-progress" class="text-xs font-sans text-[var(--accent-color)] font-bold">0 / 9 수집</span>
+                </h4>
+
+                <div class="grid grid-cols-3 gap-4" id="stamp-board"></div>
+
+                <div class="mt-6 text-center">
+                    <button onclick="resetStampTour()" class="text-[10px] text-red-500 font-bold opacity-60 hover:opacity-100 hover:underline transition-all">
+                        스탬프 도감 전체 초기화
+                    </button>
+                </div>
+            </div>
+
+            <!-- 오른쪽: 초성 퀴즈 플레이 판넬 -->
+            <div class="lg:col-span-7 bg-[var(--card-bg)] border border-[var(--card-border)] p-8 rounded-3xl card-shadow">
+                <h4 class="font-serif text-xl font-bold mb-6 text-[var(--accent-color)]">🧩 오늘의 초성 문제</h4>
+
+                <div class="mb-6">
+                    <label class="block text-xs font-bold text-[var(--text-muted)] mb-2">도전할 장소 고르기</label>
+                    <select id="quiz-spot-select" onchange="loadQuiz()" class="w-full bg-[var(--bg-color)] border border-[var(--card-border)] rounded-xl px-4 py-3 text-xs md:text-sm font-bold text-[var(--text-main)] focus:outline-none"></select>
+                </div>
+
+                <div class="bg-[var(--bg-color)] p-6 rounded-2xl border border-[var(--card-border)] text-center mb-6">
+                    <div id="quiz-congratulations" class="hidden py-6">
+                        <span class="text-4xl block mb-3">🎉</span>
+                        <h5 class="font-serif text-xl font-bold text-[var(--accent-color)]">이 장소의 스탬프를 획득했습니다!</h5>
+                        <p class="text-xs opacity-70 mt-1">다른 장소를 선택해 퀴즈 도전을 이어가 보세요.</p>
+                    </div>
+
+                    <div id="quiz-active-area">
+                        <span class="text-[10px] uppercase tracking-wider text-[var(--accent-color)] font-bold block mb-1">초성 힌트</span>
+                        <h3 id="quiz-initials" class="font-serif text-3xl font-extrabold tracking-widest text-[var(--text-main)] mb-4"></h3>
+                        <p id="quiz-hint-text" class="text-xs md:text-sm text-[var(--text-muted)] leading-relaxed max-w-md mx-auto min-h-[40px] mb-4"></p>
+                    </div>
+                </div>
+
+                <div id="quiz-input-area" class="flex gap-2">
+                    <input type="text" id="quiz-answer-input" placeholder="정답 단어를 입력하세요"
+                           class="flex-1 bg-[var(--bg-color)] border border-[var(--card-border)] rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-[var(--accent-color)] text-[var(--text-main)] font-semibold">
+                    <button onclick="checkQuizAnswer()" class="bg-[var(--accent-color)] hover:bg-[var(--text-main)] transition-colors text-white font-bold text-xs md:text-sm px-6 py-3 rounded-xl">
+                        정답 제출
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- [MODAL DIALOG (알림 팝업)] -->
+    <div id="info-modal" class="fixed inset-0 z-50 bg-black/60 hidden flex items-center justify-center p-4">
+        <div class="bg-white text-gray-800 rounded-2xl max-w-md w-full p-6 shadow-2xl relative transform transition-all duration-300 scale-95 opacity-0" id="modal-content">
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 focus:outline-none text-xl">
+                ✕
+            </button>
+            <div id="modal-body-content"></div>
+            <div class="mt-6 pt-4 border-t border-gray-100 flex justify-end">
+                <button onclick="closeModal()" class="bg-[#1B2A20] text-white px-5 py-2 rounded-lg text-xs font-semibold hover:bg-[#4E8752] transition-colors">
+                    전주 가이드 닫기
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="modal.js"></script>
+    <script>
+        // --- 스탬프 투어 (Stamp Tour) 핵심 로직 ---
+        const stampSpots = [
+            { id: 'spot1', name: "한옥마을", initials: "ㅎㅇㅁㅇ", hint: "지붕 아래 정갈하고 고운 옛 기와와 돌담이 길게 늘어서 있고, 비빔밥과 한복으로 가장 먼저 알려진 전주의 얼굴과도 같은 골목동네.", answer: ["한옥마을", "전주한옥마을"] },
+            { id: 'spot2', name: "완산벙커", initials: "ㅇㅅㅂㅋ", hint: "군사 방공호 터널이었던 어두운 동굴 유산을 우주 테마 가득한 반짝이는 디지털 미디어아트 전시장으로 재해석한 복합 예술동굴 공간.", answer: ["완산벙커", "완산벙커더스페이스", "벙커"] },
+            { id: 'spot3', name: "덕진공원", initials: "ㄷㅈㄱㅇ", hint: "여름엔 청록 연꽃이 가득 흐드러지며, 호수 정중앙에 고풍스럽게 지어진 전통 한옥양식 도서관 연화정이 자리한 도심 전통 쉼터 공원.", answer: ["덕진공원"] },
+            { id: 'spot4', name: "객리단길", initials: "ㄱㄹㄷㄱ", hint: "오래된 다가동 인쇄소 골목 건물들을 감성적으로 업사이클링하여 아기자기한 브런치 카페와 수많은 소품샵, 트렌디 펍이 늘어선 대표 골목길.", answer: ["객리단길"] },
+            { id: 'spot5', name: "웨리단길", initials: "ㅇㄹㄷㄱ", hint: "원래 한복집과 웨딩 거리가 있던 골목으로, 현재는 조용한 수공예 가죽/도자기 공방들과 깊은 분위기를 지닌 레트로 커피숍들이 들어선 골목.", answer: ["웨리단길"] },
+            { id: 'spot6', name: "아중호수도서관", initials: "ㅇㅈㅎㅅㄷㅅㄱ", hint: "잔잔한 아중호숫가 물빛 위에 둥둥 떠 있는 형상으로 우아하게 다리 놓여 지어진, 윤슬을 보며 사색에 잠길 수 있는 수상도서관.", answer: ["아중호수도서관", "아중호수", "아중도서관"] },
+            { id: 'spot7', name: "팔복예술공장", initials: "ㅍㅂㅇㅅㄱㅈ", hint: "카세트 테이프를 만들다 방치된 거친 산업 폐공장을 젊은 작가들의 감각적인 실험 설치 미술 및 아뜰리에로 탄생시킨 인더스트리얼 문화예술공장.", answer: ["팔복예술공장"] },
+            { id: 'spot8', name: "세병공원", initials: "ㅅㅂㄱㅇ", hint: "친환경 에코시티 중심에 푸르게 뚫려 넓게 가꾸어진 푸른 잔디 광장과 세병 호수를 품은 피크닉족들의 주말 성지 힐링 공원.", answer: ["세병공원"] },
+            { id: 'spot9', name: "전주수목원", initials: "ㅈㅈㅅㅁㅇ", hint: "도로공사에서 비영리로 운영하며 한가로운 장미원과 연못 속 우든 스퀘어 프레임 액자 뷰로 수많은 인생샷을 안겨 주는 비밀 야생 수목원 정원.", answer: ["전주수목원", "한국도로공사전주수목원"] }
+        ];
+
+        let earnedStamps = JSON.parse(localStorage.getItem('earnedStamps')) || [];
+
+        function renderStampBoard() {
+            const board = document.getElementById('stamp-board');
+            const progress = document.getElementById('stamp-progress');
+            board.innerHTML = '';
+
+            progress.textContent = `${earnedStamps.length} / 9 수집`;
+
+            stampSpots.forEach((spot) => {
+                const isEarned = earnedStamps.includes(spot.id);
+                const stampCell = document.createElement('div');
+                stampCell.className = `flex flex-col items-center justify-center p-4 rounded-2xl border transition-all duration-500 ${isEarned ? 'bg-emerald-50 border-emerald-200' : 'bg-gray-100 border-gray-200 opacity-50'}`;
+
+                stampCell.innerHTML = `
+                    <div class="w-14 h-14 rounded-full flex items-center justify-center border-2 border-dashed relative mb-2 ${isEarned ? 'bg-white border-emerald-400 text-emerald-600 scale-105' : 'bg-gray-200 border-gray-300 text-gray-400'}">
+                        ${isEarned ? `
+                            <svg class="w-10 h-10 animate-ping absolute opacity-20 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <svg class="w-10 h-10 text-[var(--accent-color)]" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="50" cy="50" r="45" stroke="currentColor" stroke-width="4" stroke-dasharray="4 4"/>
+                                <path d="M30 65 L50 35 L70 65 Z" fill="none" stroke="currentColor" stroke-width="4"/>
+                                <text x="50" y="58" text-anchor="middle" font-family="Gowun Batang" font-size="11" font-weight="bold" fill="currentColor">전주</text>
+                            </svg>
+                        ` : `
+                            <span class="text-xs font-bold font-serif">미획득</span>
+                        `}
+                    </div>
+                    <span class="text-[10px] font-bold tracking-tight text-center ${isEarned ? 'text-emerald-900' : 'text-gray-500'}">${spot.name}</span>
+                `;
+                board.appendChild(stampCell);
+            });
+        }
+
+        function initQuizDropdown() {
+            const select = document.getElementById('quiz-spot-select');
+            select.innerHTML = '';
+            stampSpots.forEach(spot => {
+                const isEarned = earnedStamps.includes(spot.id);
+                const opt = document.createElement('option');
+                opt.value = spot.id;
+                opt.textContent = `${spot.name} ${isEarned ? '✅ (완료)' : '🔒 (도전 가능)'}`;
+                select.appendChild(opt);
+            });
+        }
+
+        function loadQuiz() {
+            const select = document.getElementById('quiz-spot-select');
+            const activeSpotId = select.value;
+            const spot = stampSpots.find(s => s.id === activeSpotId);
+            const isEarned = earnedStamps.includes(activeSpotId);
+
+            const activeArea = document.getElementById('quiz-active-area');
+            const congratsArea = document.getElementById('quiz-congratulations');
+            const inputArea = document.getElementById('quiz-input-area');
+
+            document.getElementById('quiz-answer-input').value = '';
+
+            if (isEarned) {
+                activeArea.classList.add('hidden');
+                congratsArea.classList.remove('hidden');
+                inputArea.classList.add('hidden');
+            } else {
+                activeArea.classList.remove('hidden');
+                congratsArea.classList.add('hidden');
+                inputArea.classList.remove('hidden');
+
+                document.getElementById('quiz-initials').textContent = spot.initials;
+                document.getElementById('quiz-hint-text').textContent = spot.hint;
+            }
+        }
+
+        function checkQuizAnswer() {
+            const select = document.getElementById('quiz-spot-select');
+            const activeSpotId = select.value;
+            const spot = stampSpots.find(s => s.id === activeSpotId);
+            const inputVal = document.getElementById('quiz-answer-input').value.trim().replace(/\s+/g, '');
+
+            if (!inputVal) return;
+
+            const isCorrect = spot.answer.some(ans => ans === inputVal);
+
+            if (isCorrect) {
+                earnedStamps.push(activeSpotId);
+                localStorage.setItem('earnedStamps', JSON.stringify(earnedStamps));
+
+                openCustomAlert("🎉 정답입니다!", `<strong>${spot.name}</strong> 퀴즈를 풀고 전주 영광의 대숲 스탬프 도장을 찍었습니다.`);
+
+                renderStampBoard();
+                initQuizDropdown();
+                select.value = activeSpotId;
+                loadQuiz();
+            } else {
+                openCustomAlert("😢 아쉽게도 오답입니다", "힌트를 다시 한번 잘 읽어보시고, 정확한 이름을 적어주세요!");
+            }
+        }
+
+        function resetStampTour() {
+            earnedStamps = [];
+            localStorage.removeItem('earnedStamps');
+            renderStampBoard();
+            initQuizDropdown();
+            loadQuiz();
+            openCustomAlert("🧹 도감 초기화", "스탬프 투어가 처음부터 새롭게 리셋되었습니다.");
+        }
+
+        window.onload = function() {
+            renderStampBoard();
+            initQuizDropdown();
+            loadQuiz();
+        };
+    </script>
+</body>
+</html>
