@@ -55,313 +55,412 @@
 </head>
 <body class="min-h-screen relative overflow-x-hidden pb-20">
 
-    <!-- [HEADER & NAV] 요청에 따라 텍스트를 모두 제거하고 상단 여백만 정갈하게 유지합니다. -->
-    <div class="h-12 md:h-16"></div>
-
-    <!-- [1. INTRO / HERO SECTION] -->
-    <section class="max-w-4xl mx-auto px-6 pt-12 pb-24 text-center">
-        <span class="text-xs uppercase tracking-widest font-bold text-[var(--accent-color)] px-3.5 py-1.5 rounded-full bg-[var(--accent-color)]/10 inline-block mb-6">
-            전주 사람이 알려주는 여행 스팟
-        </span>
-        <h1 class="font-serif text-4xl md:text-6xl font-bold leading-tight mb-8 text-[var(--text-main)]">
-            비빔밥만 알고 가기엔<br class="md:hidden"> 아쉬우니까
-        </h1>
-        <p class="max-w-xl mx-auto text-sm md:text-base opacity-90 leading-relaxed font-light text-[var(--text-muted)]">
-            한옥의 고즈넉한 기와 밑, 청량하게 뻗은 대나무 숲길의 숨결과 현대 예술의 감성이 공존하는 곳. 진짜 전주 토박이들이 아끼고 머무는 9개의 공간 속으로 초대합니다.
-        </p>
-
-        <!-- 스크롤 다운 유도 마크업 -->
-        <div class="mt-16 animate-pulse">
-            <span class="text-xs tracking-widest opacity-60">SCROLL DOWN</span>
-            <div class="w-[1px] h-10 mx-auto mt-2 bg-[var(--text-main)] opacity-30"></div>
+    <!-- [STICKY NAVIGATION BAR] 상단에 고정된 3개 메뉴 네비게이션 바 -->
+    <nav class="sticky top-0 z-40 bg-[#F1F5F2]/90 backdrop-blur-md border-b border-[var(--card-border)] py-4 px-6">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <span class="font-serif font-bold text-lg tracking-widest text-[var(--accent-color)] cursor-pointer" onclick="switchPage('spots')">
+                I AM : JEONJU
+            </span>
+            <!-- 3가지 페이지 네비게이션 버튼 -->
+            <div class="flex gap-1 md:gap-3">
+                <button id="nav-spots" onclick="switchPage('spots')" class="px-3 py-1.5 rounded-full text-xs font-bold transition-all duration-300 bg-[var(--accent-color)] text-white">
+                    🌿 감성 스폿
+                </button>
+                <button id="nav-bucket" onclick="switchPage('bucket')" class="px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-300 text-[var(--text-muted)] hover:bg-[var(--accent-color)]/10">
+                    🎒 버킷리스트
+                </button>
+                <button id="nav-guestbook" onclick="switchPage('guestbook')" class="px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-300 text-[var(--text-muted)] hover:bg-[var(--accent-color)]/10">
+                    ✍️ 방명록
+                </button>
+            </div>
         </div>
-    </section>
+    </nav>
 
-    <!-- [2. MAIN CURATED CONTENT SECTION] -->
-    <section class="max-w-6xl mx-auto px-6 py-12">
-        <div class="mb-12 border-b border-[var(--text-main)]/10 pb-6">
-            <h2 class="font-serif text-2xl md:text-3xl font-bold mb-2">🌿 고즈넉한 대숲과 공간들</h2>
-            <p class="text-xs opacity-70">원하는 장소를 클릭해 가장 고즈넉하게 머물 수 있는 골든타임을 확인해 보세요.</p>
+    <!-- =================== [PAGE 1: SPOTS] 기존 전주 가이드 메인화면 =================== -->
+    <div id="page-spots" class="page-section">
+        <!-- [1. INTRO / HERO SECTION] -->
+        <section class="max-w-4xl mx-auto px-6 pt-12 pb-24 text-center">
+            <span class="text-xs uppercase tracking-widest font-bold text-[var(--accent-color)] px-3.5 py-1.5 rounded-full bg-[var(--accent-color)]/10 inline-block mb-6">
+                전주 사람이 알려주는 여행 스팟
+            </span>
+            <h1 class="font-serif text-4xl md:text-6xl font-bold leading-tight mb-8 text-[var(--text-main)]">
+                비빔밥만 알고 가기엔<br class="md:hidden"> 아쉬우니까
+            </h1>
+            <p class="max-w-xl mx-auto text-sm md:text-base opacity-90 leading-relaxed font-light text-[var(--text-muted)]">
+                한옥의 고즈넉한 기와 밑, 청량하게 뻗은 대나무 숲길의 숨결과 현대 예술의 감성이 공존하는 곳. 진짜 전주 토박이들이 아끼고 머무는 9개의 공간 속으로 초대합니다.
+            </p>
+
+            <div class="mt-16 animate-pulse">
+                <span class="text-xs tracking-widest opacity-60">SCROLL DOWN</span>
+                <div class="w-[1px] h-10 mx-auto mt-2 bg-[var(--text-main)] opacity-30"></div>
+            </div>
+        </section>
+
+        <!-- [2. MAIN CURATED CONTENT SECTION] -->
+        <section class="max-w-6xl mx-auto px-6 py-12">
+            <div class="mb-12 border-b border-[var(--text-main)]/10 pb-6">
+                <h2 class="font-serif text-2xl md:text-3xl font-bold mb-2">🌿 전주다움이 머무는 아홉 개의 공간</h2>
+                <p class="text-xs opacity-70">원하는 장소를 클릭해 가장 고즈넉하게 머물 수 있는 골든타임을 확인해 보세요.</p>
+            </div>
+
+            <!-- 3x3 카드 레이아웃 -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+                
+                <!-- 카드 1: 한옥마을 -->
+                <div onclick="openModal('spot1')" class="bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-6 card-shadow transition-all duration-300 cursor-pointer group transform hover:-translate-y-1">
+                    <div class="relative overflow-hidden rounded-xl mb-4 h-48 bg-gray-200">
+                        <svg class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="100%" height="100%" fill="#E3EAE4" />
+                            <path d="M100 200 L120 140 L280 140 L300 200 Z" fill="#2D3B30" opacity="0.8"/>
+                            <path d="M80 140 L200 80 L320 140 Z" fill="#4E8752" />
+                            <text x="50%" y="85%" dominant-baseline="middle" text-anchor="middle" font-family="Gowun Batang" font-size="14" fill="#1B2A20" font-weight="bold">[한옥마을]</text>
+                        </svg>
+                        <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center text-white p-4 text-center">
+                            <span class="text-[10px] uppercase tracking-wider text-green-300 font-bold mb-1">SIGNATURE MOMENT</span>
+                            <h5 class="text-sm font-semibold">고요한 돌담길 아침 산책</h5>
+                            <p class="text-xs text-gray-200 mt-1">인적이 드문 아침 햇살 속에 빛나는 참고운 돌담 골목의 여유.</p>
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-start mb-2">
+                        <span class="text-[10px] bg-[var(--accent-color)]/20 text-[var(--accent-color)] px-2.5 py-1 rounded-full font-bold">전통 & 산책</span>
+                        <span class="text-xs opacity-60">완산구 교동</span>
+                    </div>
+                    <h3 class="font-serif text-lg font-bold mb-2 group-hover:text-[var(--accent-color)] transition-colors">한옥마을</h3>
+                    <p class="text-xs opacity-80 leading-relaxed text-[var(--text-muted)]">
+                        정형화된 주요 대로를 살짝 비껴나 한옥 지붕과 나즈막한 돌담들이 물결치듯 길게 늘어선 서정적인 고골목입니다.
+                    </p>
+                </div>
+
+                <!-- 카드 2: 완산벙커 -->
+                <div onclick="openModal('spot2')" class="bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-6 card-shadow transition-all duration-300 cursor-pointer group transform hover:-translate-y-1">
+                    <div class="relative overflow-hidden rounded-xl mb-4 h-48 bg-gray-200">
+                        <svg class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="100%" height="100%" fill="#D2DFD4" />
+                            <path d="M100 240 Q200 120 300 240 Z" fill="#1E2F23" opacity="0.8"/>
+                            <circle cx="200" cy="150" r="15" fill="#4E8752" />
+                            <circle cx="150" cy="180" r="8" fill="#FFB03A" />
+                            <circle cx="250" cy="180" r="8" fill="#E07A5F" />
+                            <text x="50%" y="85%" dominant-baseline="middle" text-anchor="middle" font-family="Gowun Batang" font-size="14" fill="#1B2A20" font-weight="bold">[완산벙커]</text>
+                        </svg>
+                        <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center text-white p-4 text-center">
+                            <span class="text-[10px] uppercase tracking-wider text-green-300 font-bold mb-1">SIGNATURE EXPERIENCE</span>
+                            <h5 class="text-sm font-semibold">어둠 속 미디어아트 스펙터클</h5>
+                            <p class="text-xs text-gray-200 mt-1">과거 군사 터널이었던 동굴 속에서 화려하게 폭발하는 빛의 향연.</p>
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-start mb-2">
+                        <span class="text-[10px] bg-[var(--accent-color)]/20 text-[var(--accent-color)] px-2.5 py-1 rounded-full font-bold">미디어 아트</span>
+                        <span class="text-xs opacity-60">완산구 동완산동</span>
+                    </div>
+                    <h3 class="font-serif text-lg font-bold mb-2 group-hover:text-[var(--accent-color)] transition-colors">완산벙커 더 스페이스</h3>
+                    <p class="text-xs opacity-80 leading-relaxed text-[var(--text-muted)]">
+                        옛 방공호 지하 동굴을 현대적인 디지털 예술 전시장으로 완벽 재생하여 몽환적이고 독특한 우주를 탐험하게 해 줍니다.
+                    </p>
+                </div>
+
+                <!-- 카드 3: 덕진공원 -->
+                <div onclick="openModal('spot3')" class="bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-6 card-shadow transition-all duration-300 cursor-pointer group transform hover:-translate-y-1">
+                    <div class="relative overflow-hidden rounded-xl mb-4 h-48 bg-gray-200">
+                        <svg class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="100%" height="100%" fill="#E1EBE2" />
+                            <ellipse cx="200" cy="220" rx="150" ry="40" fill="#4E8752" opacity="0.3"/>
+                            <path d="M150 200 L250 200 L230 160 L170 160 Z" fill="#3A4F41" />
+                            <text x="50%" y="85%" dominant-baseline="middle" text-anchor="middle" font-family="Gowun Batang" font-size="14" fill="#1B2A20" font-weight="bold">[덕진공원]</text>
+                        </svg>
+                        <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center text-white p-4 text-center">
+                            <span class="text-[10px] uppercase tracking-wider text-green-300 font-bold mb-1">SIGNATURE MOMENT</span>
+                            <h5 class="text-sm font-semibold">연화정도서관 노을 감상</h5>
+                            <p class="text-xs text-gray-200 mt-1">잔잔한 호수를 붉게 수놓는 노을과 은은한 한옥 정취의 궁합.</p>
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-start mb-2">
+                        <span class="text-[10px] bg-[var(--accent-color)]/20 text-[var(--accent-color)] px-2.5 py-1 rounded-full font-bold">호수 & 한옥도서관</span>
+                        <span class="text-xs opacity-60">덕진구 덕진동</span>
+                    </div>
+                    <h3 class="font-serif text-lg font-bold mb-2 group-hover:text-[var(--accent-color)] transition-colors">덕진공원</h3>
+                    <p class="text-xs opacity-80 leading-relaxed text-[var(--text-muted)]">
+                        여름에는 커다란 청록 연꽃잎이 흐드러지게 피어나며, 호수 정중앙의 품격 있는 한옥 도서관에서 마음을 누일 수 있습니다.
+                    </p>
+                </div>
+
+                <!-- 카드 4: 객리단길 -->
+                <div onclick="openModal('spot4')" class="bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-6 card-shadow transition-all duration-300 cursor-pointer group transform hover:-translate-y-1">
+                    <div class="relative overflow-hidden rounded-xl mb-4 h-48 bg-gray-200">
+                        <svg class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="100%" height="100%" fill="#E6EDE7" />
+                            <rect x="120" y="100" width="160" height="120" rx="10" fill="#1B2A20" opacity="0.8"/>
+                            <circle cx="160" cy="140" r="15" fill="#4E8752" />
+                            <text x="50%" y="85%" dominant-baseline="middle" text-anchor="middle" font-family="Gowun Batang" font-size="14" fill="#1B2A20" font-weight="bold">[객리단길]</text>
+                        </svg>
+                        <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center text-white p-4 text-center">
+                            <span class="text-[10px] uppercase tracking-wider text-green-300 font-bold mb-1">SIGNATURE MOMENT</span>
+                            <h5 class="text-sm font-semibold">로컬 카페 골목 투어</h5>
+                            <p class="text-xs text-gray-200 mt-1">옛 다가동 상가 주택을 개성 있게 개조한 트렌디 공간 탐색.</p>
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-start mb-2">
+                        <span class="text-[10px] bg-[var(--accent-color)]/20 text-[var(--accent-color)] px-2.5 py-1 rounded-full font-bold">힙 플레이스</span>
+                        <span class="text-xs opacity-60">완산구 다가동</span>
+                    </div>
+                    <h3 class="font-serif text-lg font-bold mb-2 group-hover:text-[var(--accent-color)] transition-colors">객리단길</h3>
+                    <p class="text-xs opacity-80 leading-relaxed text-[var(--text-muted)]">
+                        낡은 옛 철물점과 주택가 골목 구석구석을 채운 세련된 편집숍, 소품샵, 트렌디한 로컬 브랜드 매장들이 가득합니다.
+                    </p>
+                </div>
+
+                <!-- 카드 5: 웨리단길 -->
+                <div onclick="openModal('spot5')" class="bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-6 card-shadow transition-all duration-300 cursor-pointer group transform hover:-translate-y-1">
+                    <div class="relative overflow-hidden rounded-xl mb-4 h-48 bg-gray-200">
+                        <svg class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="100%" height="100%" fill="#DCE5DD" />
+                            <path d="M120 180 L200 100 L280 180 Z" stroke="#1B2A20" stroke-width="4" fill="none" />
+                            <line x1="200" y1="100" x2="200" y2="220" stroke="#4E8752" stroke-width="4" />
+                            <text x="50%" y="85%" dominant-baseline="middle" text-anchor="middle" font-family="Gowun Batang" font-size="14" fill="#1B2A20" font-weight="bold">[웨리단길]</text>
+                        </svg>
+                        <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center text-white p-4 text-center">
+                            <span class="text-[10px] uppercase tracking-wider text-green-300 font-bold mb-1">SIGNATURE MOMENT</span>
+                            <h5 class="text-sm font-semibold">아날로그 감성 가죽 공방</h5>
+                            <p class="text-xs text-gray-200 mt-1">예쁜 웨딩거리 골목 구석 속 숨어 숨 쉬는 공방 라이프 체험.</p>
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-start mb-2">
+                        <span class="text-[10px] bg-[var(--accent-color)]/20 text-[var(--accent-color)] px-2.5 py-1 rounded-full font-bold">아날로그 골목</span>
+                        <span class="text-xs opacity-60">완산구 중앙동</span>
+                    </div>
+                    <h3 class="font-serif text-lg font-bold mb-2 group-hover:text-[var(--accent-color)] transition-colors">웨리단길</h3>
+                    <p class="text-xs opacity-80 leading-relaxed text-[var(--text-muted)]">
+                        원래의 한복·웨딩거리 사이사이, 빈티지 레트로 감성의 이색 카페와 꼼꼼한 수공예 공방들이 아늑하게 녹아 있습니다.
+                    </p>
+                </div>
+
+                <!-- 카드 6: 아중호수도서관 -->
+                <div onclick="openModal('spot6')" class="bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-6 card-shadow transition-all duration-300 cursor-pointer group transform hover:-translate-y-1">
+                    <div class="relative overflow-hidden rounded-xl mb-4 h-48 bg-gray-200">
+                        <svg class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="100%" height="100%" fill="#E3EDE4" />
+                            <path d="M80 220 Q200 180 320 220 L320 240 L80 240 Z" fill="#4E8752" opacity="0.6" />
+                            <rect x="160" y="100" width="80" height="100" rx="4" fill="#1B2A20" />
+                            <line x1="200" y1="100" x2="200" y2="200" stroke="#F1F5F2" stroke-width="2" />
+                            <text x="50%" y="85%" dominant-baseline="middle" text-anchor="middle" font-family="Gowun Batang" font-size="14" fill="#1B2A20" font-weight="bold">[아중호수도서관]</text>
+                        </svg>
+                        <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center text-white p-4 text-center">
+                            <span class="text-[10px] uppercase tracking-wider text-green-300 font-bold mb-1">SIGNATURE MOMENT</span>
+                            <h5 class="text-sm font-semibold">반짝이는 호수 윤슬 독서</h5>
+                            <p class="text-xs text-gray-200 mt-1">평화로운 호수 잔물결을 마주하고 넘기는 감명 깊은 문장 한 구절.</p>
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-start mb-2">
+                        <span class="text-[10px] bg-[var(--accent-color)]/20 text-[var(--accent-color)] px-2.5 py-1 rounded-full font-bold">호수 & 도서관</span>
+                        <span class="text-xs opacity-60">덕진구 우아동</span>
+                    </div>
+                    <h3 class="font-serif text-lg font-bold mb-2 group-hover:text-[var(--accent-color)] transition-colors">아중호수도서관</h3>
+                    <p class="text-xs opacity-80 leading-relaxed text-[var(--text-muted)]">
+                        호수 위에 아리아리 떠 있는 듯한 비주얼의 독특한 수상 도서관으로, 통창 너머 반짝이는 물빛을 감상할 수 있습니다.
+                    </p>
+                </div>
+
+                <!-- 카드 7: 팔복예술공장 -->
+                <div onclick="openModal('spot7')" class="bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-6 card-shadow transition-all duration-300 cursor-pointer group transform hover:-translate-y-1">
+                    <div class="relative overflow-hidden rounded-xl mb-4 h-48 bg-gray-200">
+                        <svg class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="100%" height="100%" fill="#DFE6E1" />
+                            <rect x="100" y="140" width="200" height="80" fill="#3A4F41" />
+                            <rect x="130" y="80" width="30" height="60" fill="#1B2A20" />
+                            <rect x="240" y="80" width="30" height="60" fill="#1B2A20" />
+                            <text x="50%" y="85%" dominant-baseline="middle" text-anchor="middle" font-family="Gowun Batang" font-size="14" fill="#1B2A20" font-weight="bold">[팔복예술공장]</text>
+                        </svg>
+                        <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center text-white p-4 text-center">
+                            <span class="text-[10px] uppercase tracking-wider text-green-300 font-bold mb-1">SIGNATURE EXPERIENCE</span>
+                            <h5 class="text-sm font-semibold">도시재생 인더스트리얼 전시</h5>
+                            <p class="text-xs text-gray-200 mt-1">방치되었던 오래된 카세트테이프 공장에서 만나는 파격적인 미학.</p>
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-start mb-2">
+                        <span class="text-[10px] bg-[var(--accent-color)]/20 text-[var(--accent-color)] px-2.5 py-1 rounded-full font-bold">복합 문화 예술</span>
+                        <span class="text-xs opacity-60">덕진구 팔복동</span>
+                    </div>
+                    <h3 class="font-serif text-lg font-bold mb-2 group-hover:text-[var(--accent-color)] transition-colors">팔복예술공장</h3>
+                    <p class="text-xs opacity-80 leading-relaxed text-[var(--text-muted)]">
+                        카세트 공장이었던 산업 유산을 예술가들의 창작 스튜디오와 입체적인 실험 미술 공간으로 변모시켰습니다.
+                    </p>
+                </div>
+
+                <!-- 카드 8: 세병공원 -->
+                <div onclick="openModal('spot8')" class="bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-6 card-shadow transition-all duration-300 cursor-pointer group transform hover:-translate-y-1">
+                    <div class="relative overflow-hidden rounded-xl mb-4 h-48 bg-gray-200">
+                        <svg class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="100%" height="100%" fill="#E4ECE6" />
+                            <circle cx="200" cy="180" r="100" fill="#4E8752" opacity="0.3" />
+                            <path d="M120 220 L280 220 Q200 150 120 220 Z" fill="#1B2A20" opacity="0.7" />
+                            <text x="50%" y="85%" dominant-baseline="middle" text-anchor="middle" font-family="Gowun Batang" font-size="14" fill="#1B2A20" font-weight="bold">[세병공원]</text>
+                        </svg>
+                        <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center text-white p-4 text-center">
+                            <span class="text-[10px] uppercase tracking-wider text-green-300 font-bold mb-1">SIGNATURE MOMENT</span>
+                            <h5 class="text-sm font-semibold">드넓은 호수 앞 잔디 피크닉</h5>
+                            <p class="text-xs text-gray-200 mt-1">에코시티 도심 한가운데에서 평화롭게 돗자리 펴고 노을 보기.</p>
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-start mb-2">
+                        <span class="text-[10px] bg-[var(--accent-color)]/20 text-[var(--accent-color)] px-2.5 py-1 rounded-full font-bold">휴식 & 파크</span>
+                        <span class="text-xs opacity-60">덕진구 송천동</span>
+                    </div>
+                    <h3 class="font-serif text-lg font-bold mb-2 group-hover:text-[var(--accent-color)] transition-colors">세병공원</h3>
+                    <p class="text-xs opacity-80 leading-relaxed text-[var(--text-muted)]">
+                        시원스레 뚫린 중앙 잔디광장과 세병호수를 둘러싼 가볍고 감성적인 보행길이 20대의 주말 힐링을 책임집니다.
+                    </p>
+                </div>
+
+                <!-- 카드 9: 전주수목원 -->
+                <div onclick="openModal('spot9')" class="bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-6 card-shadow transition-all duration-300 cursor-pointer group transform hover:-translate-y-1">
+                    <div class="relative overflow-hidden rounded-xl mb-4 h-48 bg-gray-200">
+                        <svg class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="100%" height="100%" fill="#E1ECE3" />
+                            <path d="M120 220 C120 100 280 100 280 220 Z" fill="#4E8752" opacity="0.5" />
+                            <circle cx="160" cy="180" r="12" fill="#1B2A20" />
+                            <circle cx="240" cy="180" r="12" fill="#1B2A20" />
+                            <text x="50%" y="85%" dominant-baseline="middle" text-anchor="middle" font-family="Gowun Batang" font-size="14" fill="#1B2A20" font-weight="bold">[전주수목원]</text>
+                        </svg>
+                        <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center text-white p-4 text-center">
+                            <span class="text-[10px] uppercase tracking-wider text-green-300 font-bold mb-1">SIGNATURE MOMENT</span>
+                            <h5 class="text-sm font-semibold">습지원 우든 액자 쉼터</h5>
+                            <p class="text-xs text-gray-200 mt-1">창틀 프레임 너머로 쏟아지는 싱그러운 연못 야생화와 정원 풍경.</p>
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-start mb-2">
+                        <span class="text-[10px] bg-[var(--accent-color)]/20 text-[var(--accent-color)] px-2.5 py-1 rounded-full font-bold">비밀 정원</span>
+                        <span class="text-xs opacity-60">덕진구 반월동</span>
+                    </div>
+                    <h3 class="font-serif text-lg font-bold mb-2 group-hover:text-[var(--accent-color)] transition-colors">전주수목원</h3>
+                    <p class="text-xs opacity-80 leading-relaxed text-[var(--text-muted)]">
+                        고속도로 건설로 훼손된 자연을 가꾼 공익 수목원으로, 다양한 온실원과 청아한 장미원, 습지 정원이 비밀스럽게 우거져 있습니다.
+                    </p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- [3. LOCAL TIPS SECTION (아코디언)] -->
+        <section class="max-w-4xl mx-auto px-6 py-16">
+            <div class="mb-8 text-center">
+                <h2 class="font-serif text-2xl md:text-3xl font-bold mb-2">💡 뚜벅이를 위한 팁</h2>
+                <p class="text-sm opacity-70">클릭해서 상세 전주 꿀팁 가이드를 읽어보세요.</p>
+            </div>
+
+            <div class="space-y-4">
+                <!-- 아코디언 1 -->
+                <div class="bg-[var(--card-bg)] border border-[var(--card-border)] rounded-xl overflow-hidden transition-all duration-300">
+                    <button onclick="toggleAccordion('tip1')" class="w-full p-5 text-left flex justify-between items-center font-serif font-bold text-sm md:text-base focus:outline-none">
+                        <span>🗺️ 전주역에서 한옥마을까지 가장 빠르게 가는 비법</span>
+                        <span id="icon-tip1" class="transform transition-transform duration-300 text-[var(--accent-color)]">▼</span>
+                    </button>
+                    <div id="content-tip1" class="hidden px-5 pb-5 text-xs md:text-sm leading-relaxed text-[var(--text-muted)] opacity-90 border-t border-[var(--text-main)]/5 pt-3">
+                        주말 한옥마을 주변은 극심한 교통 정체 구간입니다! 전주역에서 버스를 탈 때는 바로 가는 버스보다 <strong>'모래내시장' 방면 버스</strong>로 환승하여 가거나, 2인 이상이라면 택시로 <strong>'병무청 앞'</strong>에서 내려 걸어서 한옥마을로 들어오는 게 시간을 20분 이상 단축할 수 있는 현지인 치트키입니다.
+                    </div>
+                </div>
+
+                <!-- 아코디언 2 -->
+                <div class="bg-[var(--card-bg)] border border-[var(--card-border)] rounded-xl overflow-hidden transition-all duration-300">
+                    <button onclick="toggleAccordion('tip2')" class="w-full p-5 text-left flex justify-between items-center font-serif font-bold text-sm md:text-base focus:outline-none">
+                        <span>📸 인생샷 한정판! 전주 한옥 네컷 프레임 스폿</span>
+                        <span id="icon-tip2" class="transform transition-transform duration-300 text-[var(--accent-color)]">▼</span>
+                    </button>
+                    <div id="content-tip2" class="hidden px-5 pb-5 text-xs md:text-sm leading-relaxed text-[var(--text-muted)] opacity-90 border-t border-[var(--text-main)]/5 pt-3">
+                        오직 전주에서만 만날 수 있는 가맥 테이블 일러스트 프레임과 한옥 지붕 프레임의 네컷 부스는 <strong>객리단길 사거리 골목 부근의 포토시그니처 매장</strong>과 <strong>남부시장 청년몰 계단 옆 포토이즘</strong> 두 군데에만 숨겨져 있습니다. 한복을 입고 특별한 추억을 간직하기 아주 좋습니다!
+                    </div>
+                </div>
+
+                <!-- 아코디언 3 -->
+                <div class="bg-[var(--card-bg)] border border-[var(--card-border)] rounded-xl overflow-hidden transition-all duration-300">
+                    <button onclick="toggleAccordion('tip3')" class="w-full p-5 text-left flex justify-between items-center font-serif font-bold text-sm md:text-base focus:outline-none">
+                        <span>🛴 공유 킥보드로 전주 여행할 때 필독 주의사항</span>
+                        <span id="icon-tip3" class="transform transition-transform duration-300 text-[var(--accent-color)]">▼</span>
+                    </button>
+                    <div id="content-tip3" class="hidden px-5 pb-5 text-xs md:text-sm leading-relaxed text-[var(--text-muted)] opacity-90 border-t border-[var(--text-main)]/5 pt-3">
+                        전주 한옥마을 내부 구역은 <strong>보행자 전용 보도 보호를 위해 킥보드 진입 금지 및 자동 속도제한 구역(시속 8km 이하)</strong>으로 설정되어 있습니다. 따라서 한옥마을 바깥쪽 강변 산책로나 동문예술거리 주변에서만 킥보드를 타시고, 한옥마을 내부에서는 한복을 입고 고즈넉하게 걸어 다니시는 것을 가장 추천합니다!
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- =================== [PAGE 2: BUCKET LIST] 인터랙티브 버킷리스트 =================== -->
+    <div id="page-bucket" class="page-section hidden max-w-4xl mx-auto px-6 py-12">
+        <div class="text-center pt-8 pb-12">
+            <span class="text-xs uppercase tracking-widest font-bold text-[var(--accent-color)] px-3.5 py-1.5 rounded-full bg-[var(--accent-color)]/10 inline-block mb-4">
+                My Travel Plan
+            </span>
+            <h2 class="font-serif text-3xl md:text-4xl font-bold text-[var(--text-main)] mb-3">🎒 나의 전주 버킷리스트</h2>
+            <p class="text-xs md:text-sm opacity-80 text-[var(--text-muted)]">꼭 가보고 싶거나 기억하고 싶은 전주의 장소와 일정을 나만의 카드로 모아보세요.</p>
         </div>
 
-        <!-- 3x3 카드 레이아웃 -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+        <!-- 버킷 리스트 입력 Form -->
+        <div class="bg-[var(--card-bg)] border border-[var(--card-border)] p-6 rounded-2xl card-shadow mb-8 max-w-xl mx-auto">
+            <div class="flex gap-2">
+                <input type="text" id="bucket-input" placeholder="예: 덕진공원에서 연꽃 보기, 웨리단길 가죽 공방 방문" 
+                       class="flex-1 bg-[var(--bg-color)] border border-[var(--card-border)] rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-[var(--accent-color)] text-[var(--text-main)] placeholder-[var(--text-muted)]/50 font-medium">
+                <button onclick="addBucketItem()" class="bg-[var(--accent-color)] hover:bg-[var(--text-main)] transition-colors text-white font-semibold text-xs md:text-sm px-6 py-3 rounded-xl">
+                    기록하기
+                </button>
+            </div>
+        </div>
+
+        <!-- 버킷 리스트 아이템 표시 구역 -->
+        <div class="max-w-xl mx-auto">
+            <div class="flex justify-between items-center mb-4 pb-2 border-b border-[var(--text-main)]/10">
+                <span class="text-xs font-bold opacity-80" id="bucket-count">전체 버킷 (0개)</span>
+                <button onclick="clearCompletedBucket()" class="text-[10px] text-[var(--text-muted)] hover:text-[var(--accent-color)] font-bold transition-colors">
+                    완료한 항목 전체 삭제
+                </button>
+            </div>
+
+            <!-- 디폴트 메시지 또는 생성된 항목들 -->
+            <ul id="bucket-list" class="space-y-3">
+                <!-- JS가 동적으로 채워넣을 자리 -->
+            </ul>
+        </div>
+    </div>
+
+    <!-- =================== [PAGE 3: GUESTBOOK] 아날로그 느낌의 방명록 =================== -->
+    <div id="page-guestbook" class="page-section hidden max-w-4xl mx-auto px-6 py-12">
+        <div class="text-center pt-8 pb-12">
+            <span class="text-xs uppercase tracking-widest font-bold text-[var(--accent-color)] px-3.5 py-1.5 rounded-full bg-[var(--accent-color)]/10 inline-block mb-4">
+                Visitor Log
+            </span>
+            <h2 class="font-serif text-3xl md:text-4xl font-bold text-[var(--text-main)] mb-3">✍️ 다정한 방명록</h2>
+            <p class="text-xs md:text-sm opacity-80 text-[var(--text-muted)]">전주 가이드를 읽고 느꼈던 마음이나 다녀간 흔적을 따뜻하게 남겨보세요.</p>
+        </div>
+
+        <!-- 방명록 입력 Form -->
+        <div class="bg-[var(--card-bg)] border border-[var(--card-border)] p-6 rounded-2xl card-shadow mb-12 max-w-lg mx-auto">
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-[var(--text-muted)] mb-1">작성자 명</label>
+                    <input type="text" id="guest-name" placeholder="닉네임이나 이름을 남겨주세요" 
+                           class="w-full bg-[var(--bg-color)] border border-[var(--card-border)] rounded-xl px-4 py-2.5 text-xs md:text-sm focus:outline-none focus:ring-1 focus:ring-[var(--accent-color)] text-[var(--text-main)] font-semibold">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-[var(--text-muted)] mb-1">전하고 싶은 말</label>
+                    <textarea id="guest-message" rows="3" placeholder="다녀갑니다! 전주 대숲의 싱그러운 테마가 무척 멋지네요." 
+                              class="w-full bg-[var(--bg-color)] border border-[var(--card-border)] rounded-xl px-4 py-3 text-xs md:text-sm focus:outline-none focus:ring-1 focus:ring-[var(--accent-color)] text-[var(--text-main)] font-medium resize-none"></textarea>
+                </div>
+                <button onclick="addGuestMessage()" class="w-full bg-[var(--accent-color)] hover:bg-[var(--text-main)] text-white text-xs md:text-sm font-bold py-3 rounded-xl transition-colors">
+                    흔적 남기기
+                </button>
+            </div>
+        </div>
+
+        <!-- 등록된 방명록 리스트 -->
+        <div class="max-w-lg mx-auto">
+            <h4 class="font-serif text-lg font-bold border-b border-[var(--text-main)]/10 pb-2 mb-6 flex items-center justify-between">
+                <span>💬 속삭인 이야기들</span>
+                <span id="guestbook-count" class="text-xs font-bold font-sans text-[var(--accent-color)]">총 0개</span>
+            </h4>
             
-            <!-- 카드 1: 한옥마을 -->
-            <div onclick="openModal('spot1')" class="bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-6 card-shadow transition-all duration-300 cursor-pointer group transform hover:-translate-y-1">
-                <div class="relative overflow-hidden rounded-xl mb-4 h-48 bg-gray-200">
-                    <svg class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <rect width="100%" height="100%" fill="#E3EAE4" />
-                        <path d="M100 200 L120 140 L280 140 L300 200 Z" fill="#2D3B30" opacity="0.8"/>
-                        <path d="M80 140 L200 80 L320 140 Z" fill="#4E8752" />
-                        <text x="50%" y="85%" dominant-baseline="middle" text-anchor="middle" font-family="Gowun Batang" font-size="14" fill="#1B2A20" font-weight="bold">[한옥마을]</text>
-                    </svg>
-                    <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center text-white p-4 text-center">
-                        <span class="text-[10px] uppercase tracking-wider text-green-300 font-bold mb-1">SIGNATURE MOMENT</span>
-                        <h5 class="text-sm font-semibold">고요한 돌담길 아침 산책</h5>
-                        <p class="text-xs text-gray-200 mt-1">인적이 드문 아침 햇살 속에 빛나는 참고운 돌담 골목의 여유.</p>
-                    </div>
-                </div>
-                <div class="flex justify-between items-start mb-2">
-                    <span class="text-[10px] bg-[var(--accent-color)]/20 text-[var(--accent-color)] px-2.5 py-1 rounded-full font-bold">전통 & 산책</span>
-                    <span class="text-xs opacity-60">완산구 교동</span>
-                </div>
-                <h3 class="font-serif text-lg font-bold mb-2 group-hover:text-[var(--accent-color)] transition-colors">한옥마을</h3>
-                <p class="text-xs opacity-80 leading-relaxed text-[var(--text-muted)]">
-                    정형화된 주요 대로를 살짝 비껴나 한옥 지붕과 나즈막한 돌담들이 물결치듯 길게 늘어선 서정적인 고골목입니다.
-                </p>
-            </div>
-
-            <!-- 카드 2: 완산벙커 -->
-            <div onclick="openModal('spot2')" class="bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-6 card-shadow transition-all duration-300 cursor-pointer group transform hover:-translate-y-1">
-                <div class="relative overflow-hidden rounded-xl mb-4 h-48 bg-gray-200">
-                    <svg class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <rect width="100%" height="100%" fill="#D2DFD4" />
-                        <path d="M100 240 Q200 120 300 240 Z" fill="#1E2F23" opacity="0.8"/>
-                        <circle cx="200" cy="150" r="15" fill="#4E8752" />
-                        <circle cx="150" cy="180" r="8" fill="#FFB03A" />
-                        <circle cx="250" cy="180" r="8" fill="#E07A5F" />
-                        <text x="50%" y="85%" dominant-baseline="middle" text-anchor="middle" font-family="Gowun Batang" font-size="14" fill="#1B2A20" font-weight="bold">[완산벙커]</text>
-                    </svg>
-                    <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center text-white p-4 text-center">
-                        <span class="text-[10px] uppercase tracking-wider text-green-300 font-bold mb-1">SIGNATURE EXPERIENCE</span>
-                        <h5 class="text-sm font-semibold">어둠 속 미디어아트 스펙터클</h5>
-                        <p class="text-xs text-gray-200 mt-1">과거 군사 터널이었던 동굴 속에서 화려하게 폭발하는 빛의 향연.</p>
-                    </div>
-                </div>
-                <div class="flex justify-between items-start mb-2">
-                    <span class="text-[10px] bg-[var(--accent-color)]/20 text-[var(--accent-color)] px-2.5 py-1 rounded-full font-bold">미디어 아트</span>
-                    <span class="text-xs opacity-60">완산구 동완산동</span>
-                </div>
-                <h3 class="font-serif text-lg font-bold mb-2 group-hover:text-[var(--accent-color)] transition-colors">완산벙커 더 스페이스</h3>
-                <p class="text-xs opacity-80 leading-relaxed text-[var(--text-muted)]">
-                    옛 방공호 지하 동굴을 현대적인 디지털 예술 전시장으로 완벽 재생하여 몽환적이고 독특한 우주를 탐험하게 해 줍니다.
-                </p>
-            </div>
-
-            <!-- 카드 3: 덕진공원 -->
-            <div onclick="openModal('spot3')" class="bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-6 card-shadow transition-all duration-300 cursor-pointer group transform hover:-translate-y-1">
-                <div class="relative overflow-hidden rounded-xl mb-4 h-48 bg-gray-200">
-                    <svg class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <rect width="100%" height="100%" fill="#E1EBE2" />
-                        <ellipse cx="200" cy="220" rx="150" ry="40" fill="#4E8752" opacity="0.3"/>
-                        <path d="M150 200 L250 200 L230 160 L170 160 Z" fill="#3A4F41" />
-                        <text x="50%" y="85%" dominant-baseline="middle" text-anchor="middle" font-family="Gowun Batang" font-size="14" fill="#1B2A20" font-weight="bold">[덕진공원]</text>
-                    </svg>
-                    <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center text-white p-4 text-center">
-                        <span class="text-[10px] uppercase tracking-wider text-green-300 font-bold mb-1">SIGNATURE MOMENT</span>
-                        <h5 class="text-sm font-semibold">연화정도서관 노을 감상</h5>
-                        <p class="text-xs text-gray-200 mt-1">잔잔한 호수를 붉게 수놓는 노을과 은은한 한옥 정취의 궁합.</p>
-                    </div>
-                </div>
-                <div class="flex justify-between items-start mb-2">
-                    <span class="text-[10px] bg-[var(--accent-color)]/20 text-[var(--accent-color)] px-2.5 py-1 rounded-full font-bold">호수 & 한옥도서관</span>
-                    <span class="text-xs opacity-60">덕진구 덕진동</span>
-                </div>
-                <h3 class="font-serif text-lg font-bold mb-2 group-hover:text-[var(--accent-color)] transition-colors">덕진공원</h3>
-                <p class="text-xs opacity-80 leading-relaxed text-[var(--text-muted)]">
-                    여름에는 커다란 청록 연꽃잎이 흐드러지게 피어나며, 호수 정중앙의 품격 있는 한옥 도서관에서 마음을 누일 수 있습니다.
-                </p>
-            </div>
-
-            <!-- 카드 4: 객리단길 -->
-            <div onclick="openModal('spot4')" class="bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-6 card-shadow transition-all duration-300 cursor-pointer group transform hover:-translate-y-1">
-                <div class="relative overflow-hidden rounded-xl mb-4 h-48 bg-gray-200">
-                    <svg class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <rect width="100%" height="100%" fill="#E6EDE7" />
-                        <rect x="120" y="100" width="160" height="120" rx="10" fill="#1B2A20" opacity="0.8"/>
-                        <circle cx="160" cy="140" r="15" fill="#4E8752" />
-                        <text x="50%" y="85%" dominant-baseline="middle" text-anchor="middle" font-family="Gowun Batang" font-size="14" fill="#1B2A20" font-weight="bold">[객리단길]</text>
-                    </svg>
-                    <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center text-white p-4 text-center">
-                        <span class="text-[10px] uppercase tracking-wider text-green-300 font-bold mb-1">SIGNATURE MOMENT</span>
-                        <h5 class="text-sm font-semibold">로컬 카페 골목 투어</h5>
-                        <p class="text-xs text-gray-200 mt-1">옛 다가동 상가 주택을 개성 있게 개조한 트렌디 공간 탐색.</p>
-                    </div>
-                </div>
-                <div class="flex justify-between items-start mb-2">
-                    <span class="text-[10px] bg-[var(--accent-color)]/20 text-[var(--accent-color)] px-2.5 py-1 rounded-full font-bold">힙 플레이스</span>
-                    <span class="text-xs opacity-60">완산구 다가동</span>
-                </div>
-                <h3 class="font-serif text-lg font-bold mb-2 group-hover:text-[var(--accent-color)] transition-colors">객리단길</h3>
-                <p class="text-xs opacity-80 leading-relaxed text-[var(--text-muted)]">
-                    낡은 옛 철물점과 주택가 골목 구석구석을 채운 세련된 편집숍, 소품샵, 트렌디한 로컬 브랜드 매장들이 가득합니다.
-                </p>
-            </div>
-
-            <!-- 카드 5: 웨리단길 -->
-            <div onclick="openModal('spot5')" class="bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-6 card-shadow transition-all duration-300 cursor-pointer group transform hover:-translate-y-1">
-                <div class="relative overflow-hidden rounded-xl mb-4 h-48 bg-gray-200">
-                    <svg class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <rect width="100%" height="100%" fill="#DCE5DD" />
-                        <path d="M120 180 L200 100 L280 180 Z" stroke="#1B2A20" stroke-width="4" fill="none" />
-                        <line x1="200" y1="100" x2="200" y2="220" stroke="#4E8752" stroke-width="4" />
-                        <text x="50%" y="85%" dominant-baseline="middle" text-anchor="middle" font-family="Gowun Batang" font-size="14" fill="#1B2A20" font-weight="bold">[웨리단길]</text>
-                    </svg>
-                    <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center text-white p-4 text-center">
-                        <span class="text-[10px] uppercase tracking-wider text-green-300 font-bold mb-1">SIGNATURE MOMENT</span>
-                        <h5 class="text-sm font-semibold">아날로그 감성 가죽 공방</h5>
-                        <p class="text-xs text-gray-200 mt-1">예쁜 웨딩거리 골목 구석 속 숨어 숨 쉬는 공방 라이프 체험.</p>
-                    </div>
-                </div>
-                <div class="flex justify-between items-start mb-2">
-                    <span class="text-[10px] bg-[var(--accent-color)]/20 text-[var(--accent-color)] px-2.5 py-1 rounded-full font-bold">아날로그 골목</span>
-                    <span class="text-xs opacity-60">완산구 중앙동</span>
-                </div>
-                <h3 class="font-serif text-lg font-bold mb-2 group-hover:text-[var(--accent-color)] transition-colors">웨리단길</h3>
-                <p class="text-xs opacity-80 leading-relaxed text-[var(--text-muted)]">
-                    원래의 한복·웨딩거리 사이사이, 빈티지 레트로 감성의 이색 카페와 꼼꼼한 수공예 공방들이 아늑하게 녹아 있습니다.
-                </p>
-            </div>
-
-            <!-- 카드 6: 아중호수도서관 -->
-            <div onclick="openModal('spot6')" class="bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-6 card-shadow transition-all duration-300 cursor-pointer group transform hover:-translate-y-1">
-                <div class="relative overflow-hidden rounded-xl mb-4 h-48 bg-gray-200">
-                    <svg class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <rect width="100%" height="100%" fill="#E3EDE4" />
-                        <path d="M80 220 Q200 180 320 220 L320 240 L80 240 Z" fill="#4E8752" opacity="0.6" />
-                        <rect x="160" y="100" width="80" height="100" rx="4" fill="#1B2A20" />
-                        <line x1="200" y1="100" x2="200" y2="200" stroke="#F1F5F2" stroke-width="2" />
-                        <text x="50%" y="85%" dominant-baseline="middle" text-anchor="middle" font-family="Gowun Batang" font-size="14" fill="#1B2A20" font-weight="bold">[아중호수도서관]</text>
-                    </svg>
-                    <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center text-white p-4 text-center">
-                        <span class="text-[10px] uppercase tracking-wider text-green-300 font-bold mb-1">SIGNATURE MOMENT</span>
-                        <h5 class="text-sm font-semibold">반짝이는 호수 윤슬 독서</h5>
-                        <p class="text-xs text-gray-200 mt-1">평화로운 호수 잔물결을 마주하고 넘기는 감명 깊은 문장 한 구절.</p>
-                    </div>
-                </div>
-                <div class="flex justify-between items-start mb-2">
-                    <span class="text-[10px] bg-[var(--accent-color)]/20 text-[var(--accent-color)] px-2.5 py-1 rounded-full font-bold">호수 & 도서관</span>
-                    <span class="text-xs opacity-60">덕진구 우아동</span>
-                </div>
-                <h3 class="font-serif text-lg font-bold mb-2 group-hover:text-[var(--accent-color)] transition-colors">아중호수도서관</h3>
-                <p class="text-xs opacity-80 leading-relaxed text-[var(--text-muted)]">
-                    호수 위에 아리아리 떠 있는 듯한 비주얼의 독특한 수상 도서관으로, 통창 너머 반짝이는 물빛을 감상할 수 있습니다.
-                </p>
-            </div>
-
-            <!-- 카드 7: 팔복예술공장 -->
-            <div onclick="openModal('spot7')" class="bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-6 card-shadow transition-all duration-300 cursor-pointer group transform hover:-translate-y-1">
-                <div class="relative overflow-hidden rounded-xl mb-4 h-48 bg-gray-200">
-                    <svg class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <rect width="100%" height="100%" fill="#DFE6E1" />
-                        <rect x="100" y="140" width="200" height="80" fill="#3A4F41" />
-                        <rect x="130" y="80" width="30" height="60" fill="#1B2A20" />
-                        <rect x="240" y="80" width="30" height="60" fill="#1B2A20" />
-                        <text x="50%" y="85%" dominant-baseline="middle" text-anchor="middle" font-family="Gowun Batang" font-size="14" fill="#1B2A20" font-weight="bold">[팔복예술공장]</text>
-                    </svg>
-                    <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center text-white p-4 text-center">
-                        <span class="text-[10px] uppercase tracking-wider text-green-300 font-bold mb-1">SIGNATURE EXPERIENCE</span>
-                        <h5 class="text-sm font-semibold">도시재생 인더스트리얼 전시</h5>
-                        <p class="text-xs text-gray-200 mt-1">방치되었던 오래된 카세트테이프 공장에서 만나는 파격적인 미학.</p>
-                    </div>
-                </div>
-                <div class="flex justify-between items-start mb-2">
-                    <span class="text-[10px] bg-[var(--accent-color)]/20 text-[var(--accent-color)] px-2.5 py-1 rounded-full font-bold">복합 문화 예술</span>
-                    <span class="text-xs opacity-60">덕진구 팔복동</span>
-                </div>
-                <h3 class="font-serif text-lg font-bold mb-2 group-hover:text-[var(--accent-color)] transition-colors">팔복예술공장</h3>
-                <p class="text-xs opacity-80 leading-relaxed text-[var(--text-muted)]">
-                    카세트 공장이었던 산업 유산을 예술가들의 창작 스튜디오와 입체적인 실험 미술 공간으로 변모시켰습니다.
-                </p>
-            </div>
-
-            <!-- 카드 8: 세병공원 -->
-            <div onclick="openModal('spot8')" class="bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-6 card-shadow transition-all duration-300 cursor-pointer group transform hover:-translate-y-1">
-                <div class="relative overflow-hidden rounded-xl mb-4 h-48 bg-gray-200">
-                    <svg class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <rect width="100%" height="100%" fill="#E4ECE6" />
-                        <circle cx="200" cy="180" r="100" fill="#4E8752" opacity="0.3" />
-                        <path d="M120 220 L280 220 Q200 150 120 220 Z" fill="#1B2A20" opacity="0.7" />
-                        <text x="50%" y="85%" dominant-baseline="middle" text-anchor="middle" font-family="Gowun Batang" font-size="14" fill="#1B2A20" font-weight="bold">[세병공원]</text>
-                    </svg>
-                    <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center text-white p-4 text-center">
-                        <span class="text-[10px] uppercase tracking-wider text-green-300 font-bold mb-1">SIGNATURE MOMENT</span>
-                        <h5 class="text-sm font-semibold">드넓은 호수 앞 잔디 피크닉</h5>
-                        <p class="text-xs text-gray-200 mt-1">에코시티 도심 한가운데에서 평화롭게 돗자리 펴고 노을 보기.</p>
-                    </div>
-                </div>
-                <div class="flex justify-between items-start mb-2">
-                    <span class="text-[10px] bg-[var(--accent-color)]/20 text-[var(--accent-color)] px-2.5 py-1 rounded-full font-bold">휴식 & 파크</span>
-                    <span class="text-xs opacity-60">덕진구 송천동</span>
-                </div>
-                <h3 class="font-serif text-lg font-bold mb-2 group-hover:text-[var(--accent-color)] transition-colors">세병공원</h3>
-                <p class="text-xs opacity-80 leading-relaxed text-[var(--text-muted)]">
-                    시원스레 뚫린 중앙 잔디광장과 세병호수를 둘러싼 가볍고 감성적인 보행길이 20대의 주말 힐링을 책임집니다.
-                </p>
-            </div>
-
-            <!-- 카드 9: 전주수목원 -->
-            <div onclick="openModal('spot9')" class="bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-6 card-shadow transition-all duration-300 cursor-pointer group transform hover:-translate-y-1">
-                <div class="relative overflow-hidden rounded-xl mb-4 h-48 bg-gray-200">
-                    <svg class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <rect width="100%" height="100%" fill="#E1ECE3" />
-                        <path d="M120 220 C120 100 280 100 280 220 Z" fill="#4E8752" opacity="0.5" />
-                        <circle cx="160" cy="180" r="12" fill="#1B2A20" />
-                        <circle cx="240" cy="180" r="12" fill="#1B2A20" />
-                        <text x="50%" y="85%" dominant-baseline="middle" text-anchor="middle" font-family="Gowun Batang" font-size="14" fill="#1B2A20" font-weight="bold">[전주수목원]</text>
-                    </svg>
-                    <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center text-white p-4 text-center">
-                        <span class="text-[10px] uppercase tracking-wider text-green-300 font-bold mb-1">SIGNATURE MOMENT</span>
-                        <h5 class="text-sm font-semibold">습지원 우든 액자 쉼터</h5>
-                        <p class="text-xs text-gray-200 mt-1">창틀 프레임 너머로 쏟아지는 싱그러운 연못 야생화와 정원 풍경.</p>
-                    </div>
-                </div>
-                <div class="flex justify-between items-start mb-2">
-                    <span class="text-[10px] bg-[var(--accent-color)]/20 text-[var(--accent-color)] px-2.5 py-1 rounded-full font-bold">비밀 정원</span>
-                    <span class="text-xs opacity-60">덕진구 반월동</span>
-                </div>
-                <h3 class="font-serif text-lg font-bold mb-2 group-hover:text-[var(--accent-color)] transition-colors">전주수목원</h3>
-                <p class="text-xs opacity-80 leading-relaxed text-[var(--text-muted)]">
-                    고속도로 건설로 훼손된 자연을 가꾼 공익 수목원으로, 다양한 온실원과 청아한 장미원, 습지 정원이 비밀스럽게 우거져 있습니다.
-                </p>
-            </div>
-
-        </div>
-    </section>
-
-    <!-- [3. LOCAL TIPS SECTION (아코디언)] -->
-    <section class="max-w-4xl mx-auto px-6 py-16">
-        <div class="mb-8 text-center">
-            <h2 class="font-serif text-2xl md:text-3xl font-bold mb-2">💡 뚜벅이를 위한 팁</h2>
-            <p class="text-sm opacity-70">클릭해서 상세 전주 꿀팁 가이드를 읽어보세요.</p>
-        </div>
-
-        <div class="space-y-4">
-            <!-- 아코디언 1 -->
-            <div class="bg-[var(--card-bg)] border border-[var(--card-border)] rounded-xl overflow-hidden transition-all duration-300">
-                <button onclick="toggleAccordion('tip1')" class="w-full p-5 text-left flex justify-between items-center font-serif font-bold text-sm md:text-base focus:outline-none">
-                    <span>🗺️ 전주역에서 한옥마을까지 가장 빠르게 가는 비법</span>
-                    <span id="icon-tip1" class="transform transition-transform duration-300 text-[var(--accent-color)]">▼</span>
-                </button>
-                <div id="content-tip1" class="hidden px-5 pb-5 text-xs md:text-sm leading-relaxed text-[var(--text-muted)] opacity-90 border-t border-[var(--text-main)]/5 pt-3">
-                    주말 한옥마을 주변은 극심한 교통 정체 구간입니다! 전주역에서 버스를 탈 때는 바로 가는 버스보다 <strong>'모래내시장' 방면 버스</strong>로 환승하여 가거나, 2인 이상이라면 택시로 <strong>'병무청 앞'</strong>에서 내려 걸어서 한옥마을로 들어오는 게 시간을 20분 이상 단축할 수 있는 현지인 치트키입니다.
-                </div>
-            </div>
-
-            <!-- 아코디언 2 -->
-            <div class="bg-[var(--card-bg)] border border-[var(--card-border)] rounded-xl overflow-hidden transition-all duration-300">
-                <button onclick="toggleAccordion('tip2')" class="w-full p-5 text-left flex justify-between items-center font-serif font-bold text-sm md:text-base focus:outline-none">
-                    <span>📸 인생샷 한정판! 전주 한옥 네컷 프레임 스폿</span>
-                    <span id="icon-tip2" class="transform transition-transform duration-300 text-[var(--accent-color)]">▼</span>
-                </button>
-                <div id="content-tip2" class="hidden px-5 pb-5 text-xs md:text-sm leading-relaxed text-[var(--text-muted)] opacity-90 border-t border-[var(--text-main)]/5 pt-3">
-                    오직 전주에서만 만날 수 있는 가맥 테이블 일러스트 프레임과 한옥 지붕 프레임의 네컷 부스는 <strong>객리단길 사거리 골목 부근의 포토시그니처 매장</strong>과 <strong>남부시장 청년몰 계단 옆 포토이즘</strong> 두 군데에만 숨겨져 있습니다. 한복을 입고 특별한 추억을 간직하기 아주 좋습니다!
-                </div>
-            </div>
-
-            <!-- 아코디언 3 -->
-            <div class="bg-[var(--card-bg)] border border-[var(--card-border)] rounded-xl overflow-hidden transition-all duration-300">
-                <button onclick="toggleAccordion('tip3')" class="w-full p-5 text-left flex justify-between items-center font-serif font-bold text-sm md:text-base focus:outline-none">
-                    <span>🛴 공유 킥보드로 전주 여행할 때 필독 주의사항</span>
-                    <span id="icon-tip3" class="transform transition-transform duration-300 text-[var(--accent-color)]">▼</span>
-                </button>
-                <div id="content-tip3" class="hidden px-5 pb-5 text-xs md:text-sm leading-relaxed text-[var(--text-muted)] opacity-90 border-t border-[var(--text-main)]/5 pt-3">
-                    전주 한옥마을 내부 구역은 <strong>보행자 전용 보도 보호를 위해 킥보드 진입 금지 및 자동 속도제한 구역(시속 8km 이하)</strong>으로 설정되어 있습니다. 따라서 한옥마을 바깥쪽 강변 산책로나 동문예술거리 주변에서만 킥보드를 타시고, 한옥마을 내부에서는 한복을 입고 고즈넉하게 걸어 다니시는 것을 가장 추천합니다!
-                </div>
+            <div id="guest-messages-container" class="space-y-4">
+                <!-- JS가 동적으로 채워넣을 자리 -->
             </div>
         </div>
-    </section>
+    </div>
 
     <!-- [4. FOOTER / OUTRO] -->
     <footer class="max-w-4xl mx-auto text-center px-6 py-12 border-t border-[var(--text-main)]/10 mt-16">
@@ -393,7 +492,215 @@
 
     <!-- [JAVASCRIPT LOGIC] -->
     <script>
-        // 모달 데이터 스토어 & 컨트롤
+        // --- 1. 페이지 전환 (Switch Page) 로직 ---
+        function switchPage(pageId) {
+            // 모든 페이지 숨기기
+            document.querySelectorAll('.page-section').forEach(section => {
+                section.classList.add('hidden');
+            });
+            // 선택한 페이지만 보이기
+            document.getElementById(`page-${pageId}`).classList.remove('hidden');
+
+            // 네비게이션 버튼 스타일 갱신
+            const navButtons = {
+                spots: document.getElementById('nav-spots'),
+                bucket: document.getElementById('nav-bucket'),
+                guestbook: document.getElementById('nav-guestbook')
+            };
+
+            Object.keys(navButtons).forEach(key => {
+                const btn = navButtons[key];
+                if (key === pageId) {
+                    btn.className = "px-3 py-1.5 rounded-full text-xs font-bold transition-all duration-300 bg-[var(--accent-color)] text-white";
+                } else {
+                    btn.className = "px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-300 text-[var(--text-muted)] hover:bg-[var(--accent-color)]/10";
+                }
+            });
+
+            // 페이지 상단으로 스크롤 이동
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // --- 2. 버킷 리스트 (Bucket List) 상태 및 이벤트 관리 ---
+        // 기본값 설정 (로컬 스토리지에 저장된 값이 없을 경우 노출될 디폴트 목록)
+        const defaultBucketItems = [
+            { id: 1, text: "한옥마을 아침 골목 조용히 걸어보기", checked: true },
+            { id: 2, text: "경기전 대나무 숲길에서 심호흡하기", checked: false },
+            { id: 3, text: "덕진공원 연화정도서관에서 책 한 구절 읽기", checked: false }
+        ];
+
+        // 로컬 스토리지로부터 버킷 데이터 추출 혹은 초기화
+        let bucketItems = JSON.parse(localStorage.getItem('bucketItems')) || defaultBucketItems;
+        if (!localStorage.getItem('bucketItems')) {
+            localStorage.setItem('bucketItems', JSON.stringify(bucketItems));
+        }
+
+        function renderBucket() {
+            const listContainer = document.getElementById('bucket-list');
+            const countLabel = document.getElementById('bucket-count');
+            
+            listContainer.innerHTML = '';
+            countLabel.textContent = `전체 버킷 (${bucketItems.length}개)`;
+
+            if (bucketItems.length === 0) {
+                listContainer.innerHTML = `
+                    <div class="text-center py-12 bg-[var(--card-bg)] rounded-2xl border border-dashed border-[var(--card-border)] opacity-60">
+                        <p class="text-xs font-bold">비어있는 버킷리스트 🎒</p>
+                        <p class="text-[10px] mt-1">위에 여행 계획을 적어 나만의 가이드를 완성해보세요!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            bucketItems.forEach(item => {
+                const li = document.createElement('li');
+                li.className = "flex items-center justify-between bg-[var(--card-bg)] border border-[var(--card-border)] p-4 rounded-xl shadow-sm transition-all duration-300 hover:shadow-md";
+                li.innerHTML = `
+                    <div class="flex items-center gap-3 cursor-pointer select-none" onclick="toggleBucket(${item.id})">
+                        <div class="w-5 h-5 rounded-full border border-[var(--accent-color)] flex items-center justify-center text-xs transition-colors ${item.checked ? 'bg-[var(--accent-color)] text-white' : 'bg-transparent text-transparent'}">
+                            ✓
+                        </div>
+                        <span class="text-xs md:text-sm font-semibold transition-all duration-300 ${item.checked ? 'line-through opacity-40 text-[var(--text-muted)]' : 'text-[var(--text-main)]'}">
+                            ${item.text}
+                        </span>
+                    </div>
+                    <button onclick="deleteBucketItem(${item.id})" class="text-[10px] font-bold text-[var(--text-muted)] hover:text-red-500 opacity-60 hover:opacity-100 transition-all px-2">
+                        삭제
+                    </button>
+                `;
+                listContainer.appendChild(li);
+            });
+        }
+
+        // input 박스에서 엔터 키로 추가 가능하게 설정
+        document.getElementById('bucket-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') addBucketItem();
+        });
+
+        function addBucketItem() {
+            const input = document.getElementById('bucket-input');
+            const text = input.value.trim();
+            if (!text) return;
+
+            const newItem = {
+                id: Date.now(),
+                text: text,
+                checked: false
+            };
+
+            bucketItems.push(newItem);
+            localStorage.setItem('bucketItems', JSON.stringify(bucketItems));
+            input.value = '';
+            renderBucket();
+        }
+
+        function toggleBucket(id) {
+            bucketItems = bucketItems.map(item => {
+                if (item.id === id) item.checked = !item.checked;
+                return item;
+            });
+            localStorage.setItem('bucketItems', JSON.stringify(bucketItems));
+            renderBucket();
+        }
+
+        function deleteBucketItem(id) {
+            bucketItems = bucketItems.filter(item => item.id !== id);
+            localStorage.setItem('bucketItems', JSON.stringify(bucketItems));
+            renderBucket();
+        }
+
+        function clearCompletedBucket() {
+            bucketItems = bucketItems.filter(item => !item.checked);
+            localStorage.setItem('bucketItems', JSON.stringify(bucketItems));
+            renderBucket();
+        }
+
+
+        // --- 3. 방명록 (Guestbook) 상태 및 이벤트 관리 ---
+        // 기본값 설정 (로컬 스토리지에 저장된 값이 없을 경우 노출될 디폴트 목록)
+        const defaultGuestMessages = [
+            { id: 1, name: "잎새", message: "초록초록한 대숲 테마에 어우러지는 전주 감성 공간 소개들이 정말 마음을 편안하게 만듭니다. 덕진공원은 꼭 갈거예요!", date: "2026.07.13" },
+            { id: 2, name: "여행하는 뚜벅이", message: "실전 로컬 팁 너무 유익하네요! 주말 버스 환승이나 킥보드 주의사항 덕분에 헛고생 줄일 것 같습니다.", date: "2026.07.13" }
+        ];
+
+        // 로컬 스토리지로부터 방명록 데이터 추출 혹은 초기화
+        let guestMessages = JSON.parse(localStorage.getItem('guestMessages')) || defaultGuestMessages;
+        if (!localStorage.getItem('guestMessages')) {
+            localStorage.setItem('guestMessages', JSON.stringify(guestMessages));
+        }
+
+        function renderGuestbook() {
+            const container = document.getElementById('guest-messages-container');
+            const countLabel = document.getElementById('guestbook-count');
+            
+            container.innerHTML = '';
+            countLabel.textContent = `총 ${guestMessages.length}개`;
+
+            if (guestMessages.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-12 bg-[var(--card-bg)] rounded-2xl border border-dashed border-[var(--card-border)] opacity-60">
+                        <p class="text-xs font-bold">아직 남겨진 이야기가 없습니다. ✍️</p>
+                        <p class="text-[10px] mt-1">첫 번째 따스한 한 마디를 남겨주세요!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            guestMessages.forEach(msg => {
+                const card = document.createElement('div');
+                card.className = "bg-[var(--card-bg)] border border-[var(--card-border)] p-5 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 relative group";
+                card.innerHTML = `
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="font-serif font-bold text-sm text-[var(--accent-color)]">${msg.name}</span>
+                        <span class="text-[10px] text-[var(--text-muted)] opacity-60">${msg.date}</span>
+                    </div>
+                    <p class="text-xs md:text-sm leading-relaxed text-[var(--text-muted)] font-medium">
+                        ${msg.message}
+                    </p>
+                    <button onclick="deleteGuestMessage(${msg.id})" class="absolute top-4 right-4 text-[10px] text-gray-400 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-all font-bold">
+                        삭제
+                    </button>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // 방명록 글 등록 시 로컬 스토리지에 동기화
+        function addGuestMessage() {
+            const nameInput = document.getElementById('guest-name');
+            const msgInput = document.getElementById('guest-message');
+
+            const name = nameInput.value.trim();
+            const message = msgInput.value.trim();
+
+            if (!name || !message) return;
+
+            const today = new Date();
+            const formattedDate = `${today.getFullYear()}.${String(today.getMonth() + 1).padStart(2, '0')}.${String(today.getDate()).padStart(2, '0')}`;
+
+            const newMessage = {
+                id: Date.now(),
+                name: name,
+                message: message,
+                date: formattedDate
+            };
+
+            guestMessages.unshift(newMessage); // 최신 글이 맨 위로 오도록 추가
+            localStorage.setItem('guestMessages', JSON.stringify(guestMessages)); // 로컬 스토리지 저장
+            nameInput.value = '';
+            msgInput.value = '';
+            renderGuestbook();
+        }
+
+        // 방명록 글 삭제 시 로컬 스토리지에 동기화
+        function deleteGuestMessage(id) {
+            guestMessages = guestMessages.filter(msg => msg.id !== id);
+            localStorage.setItem('guestMessages', JSON.stringify(guestMessages)); // 로컬 스토리지 저장
+            renderGuestbook();
+        }
+
+
+        // --- 4. 기존 로직 (모달 데이터 스토어 & 컨트롤) ---
         const spotDetails = {
             'spot1': {
                 title: "한옥마을 🏯",
@@ -493,6 +800,12 @@
                 icon.style.transform = 'rotate(0deg)';
             }
         }
+
+        // 윈도우 로딩 시 초기 데이터 바인딩
+        window.onload = function() {
+            renderBucket();
+            renderGuestbook();
+        };
     </script>
 </body>
 </html>
