@@ -107,3 +107,14 @@ body {
     background:#4E8752;
     box-shadow:0 0 14px rgba(78,135,82,.6);
 }
+
+/* 배경 파티클 */
+#particle-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+}
