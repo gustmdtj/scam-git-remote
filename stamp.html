@@ -71,7 +71,7 @@
                 </div>
             </div>
 
-            <!-- 오른쪽: 초성 퀴즈 플레이 판넬 -->
+            <!-- 오른쪽: OX 퀴즈 플레이 판넬 -->
             <div class="lg:col-span-7 bg-[var(--card-bg)] border border-[var(--card-border)] p-8 rounded-3xl card-shadow">
                 <h4 class="font-serif text-xl font-bold mb-6 text-[var(--accent-color)]">🧩 오늘의 OX 문제</h4>
 
@@ -103,9 +103,13 @@
                 </div>
             </div>
 
-
         </div>
     </div>
+
+    <!-- [FOOTER] -->
+    <footer class="max-w-4xl mx-auto text-center px-6 py-12 border-t border-[var(--text-main)]/10 mt-16">
+        <p class="font-serif text-lg font-bold">"나의 오래된 전주가 당신에게도 좋은 쉼표가 되기를."</p>
+    </footer>
 
     <!-- [MODAL DIALOG (알림 팝업)] -->
     <div id="info-modal" class="fixed inset-0 z-50 bg-black/60 hidden flex items-center justify-center p-4">
@@ -247,158 +251,82 @@
             loadQuiz();
         };
 
-        /* ===========================
-   Scroll Progress
-=========================== */
+        function updateScrollProgress(){
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const documentHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const percent = (scrollTop / documentHeight) * 100;
+            document.getElementById("scroll-progress").style.width = percent + "%";
+        }
 
-function updateScrollProgress(){
-
-    const scrollTop =
-        window.pageYOffset ||
-        document.documentElement.scrollTop;
-
-    const documentHeight =
-        document.documentElement.scrollHeight -
-        document.documentElement.clientHeight;
-
-    const percent =
-        (scrollTop / documentHeight) * 100;
-
-    document.getElementById("scroll-progress").style.width =
-        percent + "%";
-}
-
-window.addEventListener("scroll", updateScrollProgress);
-
-window.addEventListener("load", updateScrollProgress);
-
-window.addEventListener("resize", updateScrollProgress);
+        window.addEventListener("scroll", updateScrollProgress);
+        window.addEventListener("load", updateScrollProgress);
+        window.addEventListener("resize", updateScrollProgress);
     </script>
 
-<script>
+    <script>
+        const canvas = document.getElementById("particle-bg");
+        const ctx = canvas.getContext("2d");
 
-const canvas = document.getElementById("particle-bg");
-const ctx = canvas.getContext("2d");
+        let particles = [];
 
-let particles = [];
+        function resizeCanvas(){
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
 
-function resizeCanvas(){
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-}
+        resizeCanvas();
+        window.addEventListener("resize", resizeCanvas);
 
-resizeCanvas();
+        class Particle {
+            constructor(){
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 3 + 1;
+                this.speedX = Math.random() * 0.4 - 0.2;
+                this.speedY = Math.random() * 0.4 - 0.2;
+                this.opacity = Math.random()*0.5+0.2;
+            }
 
-window.addEventListener(
-    "resize",
-    resizeCanvas
-);
+            update(){
+                this.x += this.speedX;
+                this.y += this.speedY;
 
+                if(this.x < 0 || this.x > canvas.width)
+                    this.speedX *= -1;
 
-class Particle {
+                if(this.y < 0 || this.y > canvas.height)
+                    this.speedY *= -1;
+            }
 
-    constructor(){
+            draw(){
+                ctx.beginPath();
+                ctx.fillStyle = `rgba(90,160,120,${this.opacity})`;
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI*2);
+                ctx.fill();
+            }
+        }
 
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height;
+        function createParticles(){
+            particles = [];
+            const count = window.innerWidth < 768 ? 35 : 80;
+            for(let i=0;i<count;i++){
+                particles.push(new Particle());
+            }
+        }
 
-        this.size = Math.random() * 3 + 1;
+        createParticles();
 
-        this.speedX = Math.random() * 0.4 - 0.2;
-        this.speedY = Math.random() * 0.4 - 0.2;
+        function animate(){
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p=>{
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animate);
+        }
 
-        this.opacity = Math.random()*0.5+0.2;
-
-    }
-
-
-    update(){
-
-        this.x += this.speedX;
-        this.y += this.speedY;
-
-
-        if(this.x < 0 || this.x > canvas.width)
-            this.speedX *= -1;
-
-        if(this.y < 0 || this.y > canvas.height)
-            this.speedY *= -1;
-
-    }
-
-
-    draw(){
-
-        ctx.beginPath();
-
-        ctx.fillStyle =
-        `rgba(90,160,120,${this.opacity})`;
-
-        ctx.arc(
-            this.x,
-            this.y,
-            this.size,
-            0,
-            Math.PI*2
-        );
-
-        ctx.fill();
-
-    }
-
-}
-
-
-function createParticles(){
-
-    particles = [];
-
-    const count =
-    window.innerWidth < 768 ? 35 : 80;
-
-
-    for(let i=0;i<count;i++){
-
-        particles.push(
-            new Particle()
-        );
-
-    }
-
-}
-
-
-createParticles();
-
-
-function animate(){
-
-    ctx.clearRect(
-        0,
-        0,
-        canvas.width,
-        canvas.height
-    );
-
-
-    particles.forEach(p=>{
-
-        p.update();
-        p.draw();
-
-    });
-
-
-    requestAnimationFrame(
-        animate
-    );
-
-}
-
-
-animate();
-
-</script>
+        animate();
+    </script>
 
 </body>
 </html>
