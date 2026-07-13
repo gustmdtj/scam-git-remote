@@ -37,6 +37,12 @@
         .card-shadow:hover {
             box-shadow: 0 10px 30px -4px rgba(78, 135, 82, 0.15);
         }
+        /* 십자말풀이용 입력창 포커스 스타일 */
+        .crossword-input:focus {
+            background-color: #E2ECE5;
+            outline: none;
+            border-color: var(--accent-color);
+        }
     </style>
     
     <!-- Tailwind 기본 폰트 확장 정의 -->
@@ -55,19 +61,22 @@
 </head>
 <body class="min-h-screen relative overflow-x-hidden pb-20">
 
-    <!-- [STICKY NAVIGATION BAR] 상단에 고정된 3개 메뉴 네비게이션 바 -->
+    <!-- [STICKY NAVIGATION BAR] 상단에 고정된 4개 메뉴 네비게이션 바 -->
     <nav class="sticky top-0 z-40 bg-[#F1F5F2]/90 backdrop-blur-md border-b border-[var(--card-border)] py-4 px-6">
         <div class="max-w-6xl mx-auto flex justify-between items-center">
             <span class="font-serif font-bold text-lg tracking-widest text-[var(--accent-color)] cursor-pointer" onclick="switchPage('spots')">
                 I AM : JEONJU
             </span>
-            <!-- 3가지 페이지 네비게이션 버튼 -->
-            <div class="flex gap-1 md:gap-3">
+            <!-- 4가지 페이지 네비게이션 버튼 -->
+            <div class="flex flex-wrap gap-1 md:gap-2 justify-end">
                 <button id="nav-spots" onclick="switchPage('spots')" class="px-3 py-1.5 rounded-full text-xs font-bold transition-all duration-300 bg-[var(--accent-color)] text-white">
                     🌿 감성 스폿
                 </button>
-                <button id="nav-bucket" onclick="switchPage('bucket')" class="px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-300 text-[var(--text-muted)] hover:bg-[var(--accent-color)]/10">
-                    🎒 버킷리스트
+                <button id="nav-stamp" onclick="switchPage('stamp')" class="px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-300 text-[var(--text-muted)] hover:bg-[var(--accent-color)]/10">
+                    🎯 스탬프 투어
+                </button>
+                <button id="nav-crossword" onclick="switchPage('crossword')" class="px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-300 text-[var(--text-muted)] hover:bg-[var(--accent-color)]/10">
+                    🧩 십자말풀이
                 </button>
                 <button id="nav-guestbook" onclick="switchPage('guestbook')" class="px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-300 text-[var(--text-muted)] hover:bg-[var(--accent-color)]/10">
                     ✍️ 방명록
@@ -127,7 +136,7 @@
                     </div>
                     <h3 class="font-serif text-lg font-bold mb-2 group-hover:text-[var(--accent-color)] transition-colors">한옥마을</h3>
                     <p class="text-xs opacity-80 leading-relaxed text-[var(--text-muted)]">
-                        정형화된 주요 대로를 살짝 비껴나 한옥 지붕과 나즈막한 돌담들이 물결치듯 길게 늘어선 서정적인 고골목입니다.
+                        정형화된 주요 대로를 살짝 비껴나 한옥 지붕과 나즈막한 돌담들이물결치듯 길게 늘어선 서정적인 고골목입니다.
                     </p>
                 </div>
 
@@ -383,44 +392,147 @@
         </section>
     </div>
 
-    <!-- =================== [PAGE 2: BUCKET LIST] 인터랙티브 버킷리스트 =================== -->
-    <div id="page-bucket" class="page-section hidden max-w-4xl mx-auto px-6 py-12">
+    <!-- =================== [PAGE 2: STAMP TOUR] 대화형 초성 퀴즈 & 로컬 도감 =================== -->
+    <div id="page-stamp" class="page-section hidden max-w-5xl mx-auto px-6 py-12">
         <div class="text-center pt-8 pb-12">
             <span class="text-xs uppercase tracking-widest font-bold text-[var(--accent-color)] px-3.5 py-1.5 rounded-full bg-[var(--accent-color)]/10 inline-block mb-4">
-                My Travel Plan
+                STAMP TOUR
             </span>
-            <h2 class="font-serif text-3xl md:text-4xl font-bold text-[var(--text-main)] mb-3">🎒 나의 전주 버킷리스트</h2>
-            <p class="text-xs md:text-sm opacity-80 text-[var(--text-muted)]">꼭 가보고 싶거나 기억하고 싶은 전주의 장소와 일정을 나만의 카드로 모아보세요.</p>
+            <h2 class="font-serif text-3xl md:text-4xl font-bold text-[var(--text-main)] mb-3">🎯 전주 초성 퀴즈 스탬프 도감</h2>
+            <p class="text-xs md:text-sm opacity-80 text-[var(--text-muted)]">힌트를 읽고 초성을 풀어 전주 로컬 가이드 지도 위에 도장을 수집해 보세요!</p>
         </div>
 
-        <!-- 버킷 리스트 입력 Form -->
-        <div class="bg-[var(--card-bg)] border border-[var(--card-border)] p-6 rounded-2xl card-shadow mb-8 max-w-xl mx-auto">
-            <div class="flex gap-2">
-                <input type="text" id="bucket-input" placeholder="예: 덕진공원에서 연꽃 보기, 웨리단길 가죽 공방 방문" 
-                       class="flex-1 bg-[var(--bg-color)] border border-[var(--card-border)] rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-[var(--accent-color)] text-[var(--text-main)] placeholder-[var(--text-muted)]/50 font-medium">
-                <button onclick="addBucketItem()" class="bg-[var(--accent-color)] hover:bg-[var(--text-main)] transition-colors text-white font-semibold text-xs md:text-sm px-6 py-3 rounded-xl">
-                    기록하기
-                </button>
-            </div>
-        </div>
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            
+            <!-- 왼쪽: 도감 현황 지도 판넬 (5 cols) -->
+            <div class="lg:col-span-5 bg-[var(--card-bg)] border border-[var(--card-border)] p-6 rounded-3xl card-shadow">
+                <h4 class="font-serif text-lg font-bold mb-4 flex justify-between items-center pb-2 border-b">
+                    <span>🗺️ 나의 가상 전주 지도</span>
+                    <span id="stamp-progress" class="text-xs font-sans text-[var(--accent-color)] font-bold">0 / 9 수집</span>
+                </h4>
+                
+                <!-- 스탬프 그리드 판넬 -->
+                <div class="grid grid-cols-3 gap-4" id="stamp-board">
+                    <!-- JS에 의해 동적으로 한옥 스탬프 도장이 생성됩니다. -->
+                </div>
 
-        <!-- 버킷 리스트 아이템 표시 구역 -->
-        <div class="max-w-xl mx-auto">
-            <div class="flex justify-between items-center mb-4 pb-2 border-b border-[var(--text-main)]/10">
-                <span class="text-xs font-bold opacity-80" id="bucket-count">전체 버킷 (0개)</span>
-                <button onclick="clearCompletedBucket()" class="text-[10px] text-[var(--text-muted)] hover:text-[var(--accent-color)] font-bold transition-colors">
-                    완료한 항목 전체 삭제
-                </button>
+                <div class="mt-6 text-center">
+                    <button onclick="resetStampTour()" class="text-[10px] text-red-500 font-bold opacity-60 hover:opacity-100 hover:underline transition-all">
+                        스탬프 도감 전체 초기화
+                    </button>
+                </div>
             </div>
 
-            <!-- 디폴트 메시지 또는 생성된 항목들 -->
-            <ul id="bucket-list" class="space-y-3">
-                <!-- JS가 동적으로 채워넣을 자리 -->
-            </ul>
+            <!-- 오른쪽: 초성 퀴즈 플레이 판넬 (7 cols) -->
+            <div class="lg:col-span-7 bg-[var(--card-bg)] border border-[var(--card-border)] p-8 rounded-3xl card-shadow">
+                <h4 class="font-serif text-xl font-bold mb-6 text-[var(--accent-color)]">🧩 오늘의 초성 문제</h4>
+                
+                <!-- 스폿 선택 드롭다운 -->
+                <div class="mb-6">
+                    <label class="block text-xs font-bold text-[var(--text-muted)] mb-2">도전할 장소 고르기</label>
+                    <select id="quiz-spot-select" onchange="loadQuiz()" class="w-full bg-[var(--bg-color)] border border-[var(--card-border)] rounded-xl px-4 py-3 text-xs md:text-sm font-bold text-[var(--text-main)] focus:outline-none">
+                        <!-- 옵션들이 동적으로 차오릅니다. -->
+                    </select>
+                </div>
+
+                <!-- 퀴즈 본체 카드 -->
+                <div class="bg-[var(--bg-color)] p-6 rounded-2xl border border-[var(--card-border)] text-center mb-6">
+                    <div id="quiz-congratulations" class="hidden py-6">
+                        <span class="text-4xl block mb-3">🎉</span>
+                        <h5 class="font-serif text-xl font-bold text-[var(--accent-color)]">이 장소의 스탬프를 획득했습니다!</h5>
+                        <p class="text-xs opacity-70 mt-1">다른 장소를 선택해 퀴즈 도전을 이어가 보세요.</p>
+                    </div>
+
+                    <div id="quiz-active-area">
+                        <span class="text-[10px] uppercase tracking-wider text-[var(--accent-color)] font-bold block mb-1">초성 힌트</span>
+                        <h3 id="quiz-initials" class="font-serif text-3xl font-extrabold tracking-widest text-[var(--text-main)] mb-4">
+                            <!-- 초성이 들어갈 자리 -->
+                        </h3>
+                        <p id="quiz-hint-text" class="text-xs md:text-sm text-[var(--text-muted)] leading-relaxed max-w-md mx-auto min-h-[40px] mb-4">
+                            <!-- 상세 힌트 설명 -->
+                        </p>
+                    </div>
+                </div>
+
+                <!-- 정답 입력부 -->
+                <div id="quiz-input-area" class="flex gap-2">
+                    <input type="text" id="quiz-answer-input" placeholder="정답 단어를 입력하세요" 
+                           class="flex-1 bg-[var(--bg-color)] border border-[var(--card-border)] rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-[var(--accent-color)] text-[var(--text-main)] font-semibold">
+                    <button onclick="checkQuizAnswer()" class="bg-[var(--accent-color)] hover:bg-[var(--text-main)] transition-colors text-white font-bold text-xs md:text-sm px-6 py-3 rounded-xl">
+                        정답 제출
+                    </button>
+                </div>
+            </div>
+
         </div>
     </div>
 
-    <!-- =================== [PAGE 3: GUESTBOOK] 아날로그 느낌의 방명록 =================== -->
+    <!-- =================== [PAGE 3: CROSSWORD] 신규 십자말풀이 페이지 =================== -->
+    <div id="page-crossword" class="page-section hidden max-w-4xl mx-auto px-6 py-12">
+        <div class="text-center pt-8 pb-12">
+            <span class="text-xs uppercase tracking-widest font-bold text-[var(--accent-color)] px-3.5 py-1.5 rounded-full bg-[var(--accent-color)]/10 inline-block mb-4">
+                CROSSWORD
+            </span>
+            <h2 class="font-serif text-3xl md:text-4xl font-bold text-[var(--text-main)] mb-3">🧩 전주 로컬 십자말풀이</h2>
+            <p class="text-xs md:text-sm opacity-80 text-[var(--text-muted)]">격자판의 빈칸을 클릭해 가로/세로 힌트를 읽고 전주 퍼즐을 맞춰보세요!</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
+            
+            <!-- 왼쪽: 십자말 격자 보드 (7 cols) -->
+            <div class="md:col-span-7 bg-[var(--card-bg)] border border-[var(--card-border)] p-6 rounded-3xl card-shadow flex flex-col items-center">
+                <div class="grid grid-cols-5 gap-1.5 w-full max-w-[340px]" id="crossword-grid">
+                    <!-- 5x5 인풋 격자가 자바스크립트에 의해 생성됩니다. -->
+                </div>
+
+                <div class="mt-6 flex gap-3">
+                    <button onclick="checkCrossword()" class="bg-[var(--accent-color)] hover:bg-[var(--text-main)] text-white text-xs font-bold px-4 py-2 rounded-lg transition-colors">
+                        맞춤 확인하기
+                    </button>
+                    <button onclick="resetCrossword()" class="border border-[var(--card-border)] hover:bg-gray-100 text-xs font-bold px-4 py-2 rounded-lg transition-colors">
+                        다시 쓰기
+                    </button>
+                </div>
+            </div>
+
+            <!-- 오른쪽: 가로 세로 힌트 가이드 (5 cols) - 요청에 따라 힌트 옆의 정답 텍스트를 제거했습니다. -->
+            <div class="md:col-span-5 space-y-6">
+                
+                <!-- 가로 열쇠 -->
+                <div class="bg-[var(--card-bg)] border border-[var(--card-border)] p-5 rounded-2xl card-shadow">
+                    <h4 class="font-serif text-base font-bold mb-3 text-[var(--accent-color)] flex items-center gap-1.5 border-b pb-2">
+                        <span>➡️ 가로 열쇠</span>
+                    </h4>
+                    <ul class="space-y-3 text-xs leading-relaxed text-[var(--text-muted)]">
+                        <li><strong>[가로 1]</strong> 기와 지붕의 정취를 느낄 수 있는 교동 일대 명소</li>
+                        <li><strong>[가로 2]</strong> 20대들이 자주 찾는 트렌디한 로컬 카페거리</li>
+                        <li><strong>[가로 3]</strong> 연꽃과 전통 한옥 도서관 연화정이 있는 곳</li>
+                    </ul>
+                </div>
+
+                <!-- 세로 열쇠 -->
+                <div class="bg-[var(--card-bg)] border border-[var(--card-border)] p-5 rounded-2xl card-shadow">
+                    <h4 class="font-serif text-base font-bold mb-3 text-[var(--accent-color)] flex items-center gap-1.5 border-b pb-2">
+                        <span>⬇️ 세로 열쇠</span>
+                    </h4>
+                    <ul class="space-y-3 text-xs leading-relaxed text-[var(--text-muted)]">
+                        <li><strong>[세로 1]</strong> 전주에서 가장 유명한 밥 도둑 전통 음식</li>
+                        <li><strong>[세로 2]</strong> 계절마다 장미와 습지 가득한 비밀 정원</li>
+                    </ul>
+                </div>
+
+                <!-- 축하 연출 구역 -->
+                <div id="crossword-success" class="hidden bg-emerald-50 border border-emerald-200 p-5 rounded-2xl text-center">
+                    <span class="text-3xl block">🏆</span>
+                    <h5 class="font-serif text-lg font-bold text-emerald-800 mt-2">십자말풀이 완료!</h5>
+                    <p class="text-[11px] text-emerald-600 mt-1">당신을 '전주 최고 명예 토박이'로 인정합니다.</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- =================== [PAGE 4: GUESTBOOK] 아날로그 느낌의 방명록 =================== -->
     <div id="page-guestbook" class="page-section hidden max-w-4xl mx-auto px-6 py-12">
         <div class="text-center pt-8 pb-12">
             <span class="text-xs uppercase tracking-widest font-bold text-[var(--accent-color)] px-3.5 py-1.5 rounded-full bg-[var(--accent-color)]/10 inline-block mb-4">
@@ -494,17 +606,15 @@
     <script>
         // --- 1. 페이지 전환 (Switch Page) 로직 ---
         function switchPage(pageId) {
-            // 모든 페이지 숨기기
             document.querySelectorAll('.page-section').forEach(section => {
                 section.classList.add('hidden');
             });
-            // 선택한 페이지만 보이기
             document.getElementById(`page-${pageId}`).classList.remove('hidden');
 
-            // 네비게이션 버튼 스타일 갱신
             const navButtons = {
                 spots: document.getElementById('nav-spots'),
-                bucket: document.getElementById('nav-bucket'),
+                stamp: document.getElementById('nav-stamp'),
+                crossword: document.getElementById('nav-crossword'),
                 guestbook: document.getElementById('nav-guestbook')
             };
 
@@ -517,113 +627,233 @@
                 }
             });
 
-            // 페이지 상단으로 스크롤 이동
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // --- 2. 버킷 리스트 (Bucket List) 상태 및 이벤트 관리 ---
-        // 기본값 설정 (로컬 스토리지에 저장된 값이 없을 경우 노출될 디폴트 목록)
-        const defaultBucketItems = [
-            { id: 1, text: "한옥마을 아침 골목 조용히 걸어보기", checked: true },
-            { id: 2, text: "경기전 대나무 숲길에서 심호흡하기", checked: false },
-            { id: 3, text: "덕진공원 연화정도서관에서 책 한 구절 읽기", checked: false }
+        // --- 2. 스탬프 투어 (Stamp Tour) 핵심 로직 ---
+        const stampSpots = [
+            { id: 'spot1', name: "한옥마을", initials: "ㅎㅇㅁㅇ", hint: "지붕 아래 정갈하고 고운 옛 기와와 돌담이 길게 늘어서 있고, 비빔밥과 한복으로 가장 먼저 알려진 전주의 얼굴과도 같은 골목동네.", answer: ["한옥마을", "전주한옥마을"] },
+            { id: 'spot2', name: "완산벙커", initials: "ㅇㅅㅂㅋ", hint: "군사 방공호 터널이었던 어두운 동굴 유산을 우주 테마 가득한 반짝이는 디지털 미디어아트 전시장으로 재해석한 복합 예술동굴 공간.", answer: ["완산벙커", "완산벙커더스페이스", "벙커"] },
+            { id: 'spot3', name: "덕진공원", initials: "ㄷㅈㄱㅇ", hint: "여름엔 청록 연꽃이 가득 흐드러지며, 호수 정중앙에 고풍스럽게 지어진 전통 한옥양식 도서관 연화정이 자리한 도심 전통 쉼터 공원.", answer: ["덕진공원"] },
+            { id: 'spot4', name: "객리단길", initials: "ㄱㄹㄷㄱ", hint: "오래된 다가동 인쇄소 골목 건물들을 감성적으로 업사이클링하여 아기자기한 브런치 카페와 수많은 소품샵, 트렌디 펍이 늘어선 대표 골목길.", answer: ["객리단길"] },
+            { id: 'spot5', name: "웨리단길", initials: "ㅇㄹㄷㄱ", hint: "원래 한복집과 웨딩 거리가 있던 골목으로, 현재는 조용한 수공예 가죽/도자기 공방들과 깊은 분위기를 지닌 레트로 커피숍들이 들어선 골목.", answer: ["웨리단길"] },
+            { id: 'spot6', name: "아중호수도서관", initials: "ㅇㅈㅎㅅㄷㅅㄱ", hint: "잔잔한 아중호숫가 물빛 위에 둥둥 떠 있는 형상으로 우아하게 다리 놓여 지어진, 윤슬을 보며 사색에 잠길 수 있는 수상도서관.", answer: ["아중호수도서관", "아중호수", "아중도서관"] },
+            { id: 'spot7', name: "팔복예술공장", initials: "ㅍㅂㅇㅅㄱㅈ", hint: "카세트 테이프를 만들다 방치된 거친 산업 폐공장을 젊은 작가들의 감각적인 실험 설치 미술 및 아뜰리에로 탄생시킨 인더스트리얼 문화예술공장.", answer: ["팔복예술공장"] },
+            { id: 'spot8', name: "세병공원", initials: "ㅅㅂㄱㅇ", hint: "친환경 에코시티 중심에 푸르게 뚫려 넓게 가꾸어진 푸른 잔디 광장과 세병 호수를 품은 피크닉족들의 주말 성지 힐링 공원.", answer: ["세병공원"] },
+            { id: 'spot9', name: "전주수목원", initials: "ㅈㅈㅅㅁㅇ", hint: "도로공사에서 비영리로 운영하며 한가로운 장미원과 연못 속 우든 스퀘어 프레임 액자 뷰로 수많은 인생샷을 안겨 주는 비밀 야생 수목원 정원.", answer: ["전주수목원", "한국도로공사전주수목원"] }
         ];
 
-        // 로컬 스토리지로부터 버킷 데이터 추출 혹은 초기화
-        let bucketItems = JSON.parse(localStorage.getItem('bucketItems')) || defaultBucketItems;
-        if (!localStorage.getItem('bucketItems')) {
-            localStorage.setItem('bucketItems', JSON.stringify(bucketItems));
-        }
+        // 로컬 스토리지로부터 획득한 스탬프 목록 읽기
+        let earnedStamps = JSON.parse(localStorage.getItem('earnedStamps')) || [];
 
-        function renderBucket() {
-            const listContainer = document.getElementById('bucket-list');
-            const countLabel = document.getElementById('bucket-count');
+        function renderStampBoard() {
+            const board = document.getElementById('stamp-board');
+            const progress = document.getElementById('stamp-progress');
+            board.innerHTML = '';
             
-            listContainer.innerHTML = '';
-            countLabel.textContent = `전체 버킷 (${bucketItems.length}개)`;
+            progress.textContent = `${earnedStamps.length} / 9 수집`;
 
-            if (bucketItems.length === 0) {
-                listContainer.innerHTML = `
-                    <div class="text-center py-12 bg-[var(--card-bg)] rounded-2xl border border-dashed border-[var(--card-border)] opacity-60">
-                        <p class="text-xs font-bold">비어있는 버킷리스트 🎒</p>
-                        <p class="text-[10px] mt-1">위에 여행 계획을 적어 나만의 가이드를 완성해보세요!</p>
+            stampSpots.forEach((spot) => {
+                const isEarned = earnedStamps.includes(spot.id);
+                const stampCell = document.createElement('div');
+                stampCell.className = `flex flex-col items-center justify-center p-4 rounded-2xl border transition-all duration-500 ${isEarned ? 'bg-emerald-50 border-emerald-200' : 'bg-gray-100 border-gray-200 opacity-50'}`;
+                
+                stampCell.innerHTML = `
+                    <div class="w-14 h-14 rounded-full flex items-center justify-center border-2 border-dashed relative mb-2 ${isEarned ? 'bg-white border-emerald-400 text-emerald-600 scale-105' : 'bg-gray-200 border-gray-300 text-gray-400'}">
+                        <!-- 스탬프 인장 그래픽 (SVG) -->
+                        ${isEarned ? `
+                            <svg class="w-10 h-10 animate-ping absolute opacity-20 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <svg class="w-10 h-10 text-[var(--accent-color)]" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="50" cy="50" r="45" stroke="currentColor" stroke-width="4" stroke-dasharray="4 4"/>
+                                <path d="M30 65 L50 35 L70 65 Z" fill="none" stroke="currentColor" stroke-width="4"/>
+                                <text x="50" y="58" text-anchor="middle" font-family="Gowun Batang" font-size="11" font-weight="bold" fill="currentColor">전주</text>
+                            </svg>
+                        ` : `
+                            <span class="text-xs font-bold font-serif">미획득</span>
+                        `}
                     </div>
+                    <span class="text-[10px] font-bold tracking-tight text-center ${isEarned ? 'text-emerald-900' : 'text-gray-500'}">${spot.name}</span>
                 `;
-                return;
+                board.appendChild(stampCell);
+            });
+        }
+
+        function initQuizDropdown() {
+            const select = document.getElementById('quiz-spot-select');
+            select.innerHTML = '';
+            stampSpots.forEach(spot => {
+                const isEarned = earnedStamps.includes(spot.id);
+                const opt = document.createElement('option');
+                opt.value = spot.id;
+                opt.textContent = `${spot.name} ${isEarned ? '✅ (완료)' : '🔒 (도전 가능)'}`;
+                select.appendChild(opt);
+            });
+        }
+
+        function loadQuiz() {
+            const select = document.getElementById('quiz-spot-select');
+            const activeSpotId = select.value;
+            const spot = stampSpots.find(s => s.id === activeSpotId);
+            const isEarned = earnedStamps.includes(activeSpotId);
+
+            const activeArea = document.getElementById('quiz-active-area');
+            const congratsArea = document.getElementById('quiz-congratulations');
+            const inputArea = document.getElementById('quiz-input-area');
+
+            // 인풋 박스 청소
+            document.getElementById('quiz-answer-input').value = '';
+
+            if (isEarned) {
+                activeArea.classList.add('hidden');
+                congratsArea.classList.remove('hidden');
+                inputArea.classList.add('hidden');
+            } else {
+                activeArea.classList.remove('hidden');
+                congratsArea.classList.add('hidden');
+                inputArea.classList.remove('hidden');
+
+                document.getElementById('quiz-initials').textContent = spot.initials;
+                document.getElementById('quiz-hint-text').textContent = spot.hint;
             }
+        }
 
-            bucketItems.forEach(item => {
-                const li = document.createElement('li');
-                li.className = "flex items-center justify-between bg-[var(--card-bg)] border border-[var(--card-border)] p-4 rounded-xl shadow-sm transition-all duration-300 hover:shadow-md";
-                li.innerHTML = `
-                    <div class="flex items-center gap-3 cursor-pointer select-none" onclick="toggleBucket(${item.id})">
-                        <div class="w-5 h-5 rounded-full border border-[var(--accent-color)] flex items-center justify-center text-xs transition-colors ${item.checked ? 'bg-[var(--accent-color)] text-white' : 'bg-transparent text-transparent'}">
-                            ✓
-                        </div>
-                        <span class="text-xs md:text-sm font-semibold transition-all duration-300 ${item.checked ? 'line-through opacity-40 text-[var(--text-muted)]' : 'text-[var(--text-main)]'}">
-                            ${item.text}
-                        </span>
-                    </div>
-                    <button onclick="deleteBucketItem(${item.id})" class="text-[10px] font-bold text-[var(--text-muted)] hover:text-red-500 opacity-60 hover:opacity-100 transition-all px-2">
-                        삭제
-                    </button>
-                `;
-                listContainer.appendChild(li);
+        function checkQuizAnswer() {
+            const select = document.getElementById('quiz-spot-select');
+            const activeSpotId = select.value;
+            const spot = stampSpots.find(s => s.id === activeSpotId);
+            const inputVal = document.getElementById('quiz-answer-input').value.trim().replace(/\s+/g, ''); // 공백 제거
+
+            if (!inputVal) return;
+
+            const isCorrect = spot.answer.some(ans => ans === inputVal);
+
+            if (isCorrect) {
+                earnedStamps.push(activeSpotId);
+                localStorage.setItem('earnedStamps', JSON.stringify(earnedStamps));
+                
+                // 모달을 통한 맞춤 알림
+                openCustomAlert("🎉 정답입니다!", `<strong>${spot.name}</strong> 퀴즈를 풀고 전주 영광의 대숲 스탬프 도장을 찍었습니다.`);
+                
+                renderStampBoard();
+                initQuizDropdown();
+                select.value = activeSpotId; // 선택 상태 유지
+                loadQuiz();
+            } else {
+                openCustomAlert("😢 아쉽게도 오답입니다", "힌트를 다시 한번 잘 읽어보시고, 정확한 이름을 적어주세요!");
+            }
+        }
+
+        function resetStampTour() {
+            earnedStamps = [];
+            localStorage.removeItem('earnedStamps');
+            renderStampBoard();
+            initQuizDropdown();
+            loadQuiz();
+            openCustomAlert("🧹 도감 초기화", "스탬프 투어가 처음부터 새롭게 리셋되었습니다.");
+        }
+
+
+        // --- 3. 십자말풀이 (Crossword) 핵심 로직 ---
+        // 5x5 행렬 그리드 정의 (0: 빈칸/검은 벽, 1이상: 입력 가능한 셀)
+        const crosswordLayout = [
+            ['한', '옥', '마', '을', 0],
+            ['옥',   0,   0, '물', 0],
+            ['객', '리', '단', '길', 0],
+            [ 0,   0,   0, '전', 0],
+            ['덕', '진', '공', '원', 0]
+        ];
+
+        // 각 셀의 가로/세로 길라잡이 안내용 번호 부여
+        const crosswordLabels = [
+            ['1',  '',  '',  '',  ''],
+            ['',   '',  '', '2',  ''],
+            ['3',  '',  '',  '',  ''],
+            ['',   '',  '',  '',  ''],
+            ['4',  '',  '',  '',  '']
+        ];
+
+        function initCrossword() {
+            const gridContainer = document.getElementById('crossword-grid');
+            gridContainer.innerHTML = '';
+
+            for (let r = 0; r < 5; r++) {
+                for (let c = 0; c < 5; c++) {
+                    const char = crosswordLayout[r][c];
+                    const label = crosswordLabels[r][c];
+                    const cell = document.createElement('div');
+                    cell.className = "relative w-full aspect-square flex items-center justify-center rounded-lg border";
+                    
+                    if (char === 0) {
+                        // 입력 불가 막힌 칸 (검은색/초록색 비활성)
+                        cell.className += " bg-[#1B2A20]/20 border-transparent";
+                    } else {
+                        // 입력 가능 칸
+                        cell.className += " bg-white border-[var(--card-border)] card-shadow";
+                        
+                        // 상단에 조그마한 세로/가로 힌트 번호 라벨 추가
+                        if (label) {
+                            cell.innerHTML += `<span class="absolute top-1 left-1.5 text-[8px] font-bold text-[var(--accent-color)]">${label}</span>`;
+                        }
+
+                        // 한 글자 입력을 위한 입력 박스 삽입
+                        cell.innerHTML += `
+                            <input type="text" maxlength="1" data-row="${r}" data-col="${c}" 
+                                   class="crossword-input w-full h-full bg-transparent text-center font-bold text-sm md:text-base text-[var(--text-main)] pt-2 focus:outline-none">
+                        `;
+                    }
+                    gridContainer.appendChild(cell);
+                }
+            }
+        }
+
+        function checkCrossword() {
+            const inputs = document.querySelectorAll('.crossword-input');
+            let allCorrect = true;
+
+            inputs.forEach(input => {
+                const r = parseInt(input.dataset.row);
+                const c = parseInt(input.dataset.col);
+                const userChar = input.value.trim();
+                const correctChar = crosswordLayout[r][c];
+
+                if (userChar !== correctChar) {
+                    allCorrect = false;
+                    input.parentElement.classList.add('border-red-300', 'bg-red-50');
+                    input.parentElement.classList.remove('border-emerald-300', 'bg-emerald-50');
+                } else {
+                    input.parentElement.classList.remove('border-red-300', 'bg-red-50');
+                    input.parentElement.classList.add('border-emerald-300', 'bg-emerald-50');
+                }
             });
+
+            const congrats = document.getElementById('crossword-success');
+            if (allCorrect) {
+                congrats.classList.remove('hidden');
+                openCustomAlert("🏆 대성공!", "십자말풀이를 모두 풀었습니다! 당신은 멋진 전주 명예 전문가입니다.");
+            } else {
+                congrats.classList.add('hidden');
+                openCustomAlert("❌ 퍼즐 오완성", "빨갛게 체크된 글자들을 유심히 살펴보고 다시 수정해보세요!");
+            }
         }
 
-        // input 박스에서 엔터 키로 추가 가능하게 설정
-        document.getElementById('bucket-input').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') addBucketItem();
-        });
-
-        function addBucketItem() {
-            const input = document.getElementById('bucket-input');
-            const text = input.value.trim();
-            if (!text) return;
-
-            const newItem = {
-                id: Date.now(),
-                text: text,
-                checked: false
-            };
-
-            bucketItems.push(newItem);
-            localStorage.setItem('bucketItems', JSON.stringify(bucketItems));
-            input.value = '';
-            renderBucket();
-        }
-
-        function toggleBucket(id) {
-            bucketItems = bucketItems.map(item => {
-                if (item.id === id) item.checked = !item.checked;
-                return item;
+        function resetCrossword() {
+            const inputs = document.querySelectorAll('.crossword-input');
+            inputs.forEach(input => {
+                input.value = '';
+                input.parentElement.className = "relative w-full aspect-square flex items-center justify-center rounded-lg border bg-white border-[var(--card-border)] card-shadow";
             });
-            localStorage.setItem('bucketItems', JSON.stringify(bucketItems));
-            renderBucket();
-        }
-
-        function deleteBucketItem(id) {
-            bucketItems = bucketItems.filter(item => item.id !== id);
-            localStorage.setItem('bucketItems', JSON.stringify(bucketItems));
-            renderBucket();
-        }
-
-        function clearCompletedBucket() {
-            bucketItems = bucketItems.filter(item => !item.checked);
-            localStorage.setItem('bucketItems', JSON.stringify(bucketItems));
-            renderBucket();
+            document.getElementById('crossword-success').classList.add('hidden');
         }
 
 
-        // --- 3. 방명록 (Guestbook) 상태 및 이벤트 관리 ---
-        // 기본값 설정 (로컬 스토리지에 저장된 값이 없을 경우 노출될 디폴트 목록)
+        // --- 4. 방명록 (Guestbook) 로컬 스토리지 기반 관리 ---
         const defaultGuestMessages = [
             { id: 1, name: "잎새", message: "초록초록한 대숲 테마에 어우러지는 전주 감성 공간 소개들이 정말 마음을 편안하게 만듭니다. 덕진공원은 꼭 갈거예요!", date: "2026.07.13" },
             { id: 2, name: "여행하는 뚜벅이", message: "실전 로컬 팁 너무 유익하네요! 주말 버스 환승이나 킥보드 주의사항 덕분에 헛고생 줄일 것 같습니다.", date: "2026.07.13" }
         ];
 
-        // 로컬 스토리지로부터 방명록 데이터 추출 혹은 초기화
         let guestMessages = JSON.parse(localStorage.getItem('guestMessages')) || defaultGuestMessages;
         if (!localStorage.getItem('guestMessages')) {
             localStorage.setItem('guestMessages', JSON.stringify(guestMessages));
@@ -665,7 +895,6 @@
             });
         }
 
-        // 방명록 글 등록 시 로컬 스토리지에 동기화
         function addGuestMessage() {
             const nameInput = document.getElementById('guest-name');
             const msgInput = document.getElementById('guest-message');
@@ -685,68 +914,54 @@
                 date: formattedDate
             };
 
-            guestMessages.unshift(newMessage); // 최신 글이 맨 위로 오도록 추가
-            localStorage.setItem('guestMessages', JSON.stringify(guestMessages)); // 로컬 스토리지 저장
+            guestMessages.unshift(newMessage);
+            localStorage.setItem('guestMessages', JSON.stringify(guestMessages));
             nameInput.value = '';
             msgInput.value = '';
             renderGuestbook();
         }
 
-        // 방명록 글 삭제 시 로컬 스토리지에 동기화
         function deleteGuestMessage(id) {
             guestMessages = guestMessages.filter(msg => msg.id !== id);
-            localStorage.setItem('guestMessages', JSON.stringify(guestMessages)); // 로컬 스토리지 저장
+            localStorage.setItem('guestMessages', JSON.stringify(guestMessages));
             renderGuestbook();
         }
 
 
-        // --- 4. 기존 로직 (모달 데이터 스토어 & 컨트롤) ---
+        // --- 5. 커스텀 얼럿/알림 모달 컨트롤러 ---
+        function openCustomAlert(title, bodyHtml) {
+            const modal = document.getElementById('info-modal');
+            const content = document.getElementById('modal-content');
+            const bodyContent = document.getElementById('modal-body-content');
+
+            bodyContent.innerHTML = `
+                <span class="text-xs uppercase tracking-widest text-[#4E8752] font-bold">Local Game System</span>
+                <h3 class="font-serif text-2xl font-bold mt-1 text-gray-900 mb-2">${title}</h3>
+                
+                <div class="mt-4 text-xs md:text-sm text-gray-700 bg-green-50/50 p-4 rounded-xl border border-green-100 leading-relaxed font-medium">
+                    ${bodyHtml}
+                </div>
+            `;
+
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                content.classList.remove('scale-95', 'opacity-0');
+                content.classList.add('scale-100', 'opacity-100');
+            }, 10);
+        }
+
+
+        // --- 6. 감성 스폿 상세 모달창 ---
         const spotDetails = {
-            'spot1': {
-                title: "한옥마을 🏯",
-                subtitle: "골목 구석구석 숨어있는 고즈넉함",
-                goldenTime: "오전 8시 ~ 10시 (관광객의 흐름이 시작되기 전, 고즈넉하고 고요한 옛 골목길 정취를 고스란히 온몸으로 마주할 수 있는 가장 평화로운 시각)"
-            },
-            'spot2': {
-                title: "완산벙커 더 스페이스 🌌",
-                subtitle: "어둠 속에서 마주하는 화려한 미디어아트",
-                goldenTime: "오후 2시 ~ 4시 (바깥의 가장 뜨거운 열기를 잠시 잊고, 동굴 내부의 시원하고 은은한 오라 속에서 미디어아트에 완전히 몰입하기 좋은 낮 시간)"
-            },
-            'spot3': {
-                title: "덕진공원 🪷",
-                subtitle: "연꽃과 연화정도서관이 자아내는 한 폭의 그림",
-                goldenTime: "오후 6시 ~ 7시 (노을이 도서관 기와지붕 위로 비스듬히 내려앉으며 호숫가가 온통 오렌지빛으로 물드는 로맨틱한 매직아워)"
-            },
-            'spot4': {
-                title: "객리단길 ☕",
-                subtitle: "트렌디한 로컬 카페와 골목 감성",
-                goldenTime: "오후 1시 ~ 3시 (상가 골목 구석구석 정갈한 햇볕이 들어와 한가롭게 커피를 마시며 로컬 소품숍을 천천히 돌아보기 좋은 평화로운 시간)"
-            },
-            'spot5': {
-                title: "웨리단길 🛠️",
-                subtitle: "아날로그 감성과 개성 넘치는 공방들",
-                goldenTime: "오후 4시 ~ 6시 (오래된 목조 건물과 빈티지한 아뜰리에 간판 위로 붉고 긴 그림자가 정답게 어린 노을빛 시간대)"
-            },
-            'spot6': {
-                title: "아중호수도서관 📖",
-                subtitle: "잔잔한 물결 위에서 읽어 내려가는 감성 한 줄",
-                goldenTime: "오전 10시 ~ 낮 12시 (아침 호수에 찬찬하게 부서지는 빛의 잔결(윤슬)이 서가 창가 벽면으로 고스란히 영롱하게 아지랑이 칠 때)"
-            },
-            'spot7': {
-                title: "팔복예술공장 🎨",
-                subtitle: "거친 폐공장에서 피어난 예술의 온기",
-                goldenTime: "오전 11시 ~ 오후 1시 (인더스트리얼 붉은 벽돌과 유리가 만나 만들어내는 차가우면서도 입체적이고 세련된 명암이 전시실을 가득 채울 때)"
-            },
-            'spot8': {
-                title: "세병공원 🧺",
-                subtitle: "도심 속 넓은 잔디밭과 투명한 호수",
-                goldenTime: "오후 5시 ~ 6시 30분 (돗자리를 펴놓고 선선한 공원 호수 바람을 쐬며 완벽한 도심 속 가벼운 선셋 피크닉을 즐기기에 가장 좋은 주말 저녁)"
-            },
-            'spot9': {
-                title: "전주수목원 🌳",
-                subtitle: "계절마다 다른 야생화가 속삭이는 정원",
-                goldenTime: "오전 9시 ~ 11시 (습지원 유리를 뚫고 들어오는 신선한 이슬 맺힌 자연광과 싱그러운 풀 냄새가 온 수목원 대기에 가득 차오르는 이른 오전)"
-            }
+            'spot1': { title: "한옥마을 🏯", subtitle: "골목 구석구석 숨어있는 고즈넉함", goldenTime: "오전 8시 ~ 10시 (관광객의 흐름이 시작되기 전, 고즈넉하고 고요한 옛 골목길 정취를 고스란히 온몸으로 마주할 수 있는 가장 평화로운 시각)" },
+            'spot2': { title: "완산벙커 더 스페이스 🌌", subtitle: "어둠 속에서 마주하는 화려한 미디어아트", goldenTime: "오후 2시 ~ 4시 (바깥의 가장 뜨거운 열기를 잠시 잊고, 동굴 내부의 시원하고 은은한 오라 속에서 미디어아트에 완전히 몰입하기 좋은 낮 시간)" },
+            'spot3': { title: "덕진공원 🪷", subtitle: "연꽃과 연화정도서관이 자아내는 한 폭의 그림", goldenTime: "오후 6시 ~ 7시 (노을이 도서관 기와지붕 위로 비스듬히 내려앉으며 호숫가가 온통 오렌지빛으로 물드는 로맨틱한 매직아워)" },
+            'spot4': { title: "객리단길 ☕", subtitle: "트렌디한 로컬 카페와 골목 감성", goldenTime: "오후 1시 ~ 3시 (상가 골목 구석구석 정갈한 햇볕이 들어와 한가롭게 커피를 마시며 로컬 소품숍을 천천히 돌아보기 좋은 평화로운 시간)" },
+            'spot5': { title: "웨리단길 🛠️", subtitle: "아날로그 감성과 개성 넘치는 공방들", goldenTime: "오후 4시 ~ 6시 (오래된 목조 건물과 빈티지한 아뜰리에 간판 위로 붉고 긴 그림자가 정답게 어린 노을빛 시간대)" },
+            'spot6': { title: "아중호수도서관 📖", subtitle: "잔잔한 물결 위에서 읽어 내려가는 감성 한 줄", goldenTime: "오전 10시 ~ 낮 12시 (아침 호수에 찬찬하게 부서지는 빛의 잔결(윤슬)이 서가 창가 벽면으로 고스란히 영롱하게 아지랑이 칠 때)" },
+            'spot7': { title: "팔복예술공장 🎨", subtitle: "거친 폐공장에서 피어난 예술의 온기", goldenTime: "오전 11시 ~ 오후 1시 (인더스트리얼 붉은 벽돌과 유리가 만나 만들어내는 차가우면서도 입체적이고 세련된 명암이 전시실을 가득 채울 때)" },
+            'spot8': { title: "세병공원 🧺", subtitle: "도심 속 넓은 잔디밭과 투명한 호수", goldenTime: "오후 5시 ~ 6시 30분 (돗자리를 펴놓고 선선한 공원 호수 바람을 쐬며 완벽한 도심 속 가벼운 선셋 피크닉을 즐기기에 가장 좋은 주말 저녁)" },
+            'spot9': { title: "전주수목원 🌳", subtitle: "계절마다 다른 야생화가 속삭이는 정원", goldenTime: "오전 9시 ~ 11시 (습지원 유리를 뚫고 들어오는 신선한 이슬 맺힌 자연광과 싱그러운 풀 냄새가 온 수목원 대기에 가득 차오르는 이른 오전)" }
         };
 
         function openModal(spotKey) {
@@ -801,9 +1016,12 @@
             }
         }
 
-        // 윈도우 로딩 시 초기 데이터 바인딩
+        // 최초 기동 실행
         window.onload = function() {
-            renderBucket();
+            renderStampBoard();
+            initQuizDropdown();
+            loadQuiz();
+            initCrossword();
             renderGuestbook();
         };
     </script>
