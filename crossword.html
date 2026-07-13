@@ -160,6 +160,15 @@
                     gridContainer.appendChild(cell);
                 }
             }
+
+            // 한 칸에 한 글자만 입력되도록 강제 (한글 자모 조합 중 maxlength가 무시되는 경우 대비)
+            document.querySelectorAll('.crossword-input').forEach(input => {
+                input.addEventListener('input', (e) => {
+                    if (e.target.value.length > 1) {
+                        e.target.value = e.target.value.slice(-1);
+                    }
+                });
+            });
         }
 
         function checkCrossword() {
