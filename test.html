@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I AM : JEONJU - 여행 타입 테스트</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        serif: ['Gowun Batang', 'serif'],
+                        sans: ['Noto Sans KR', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="min-h-screen relative overflow-x-hidden pb-20">
+
+    <canvas id="particle-bg"></canvas>
+
+    <!-- Scroll Progress -->
+    <div id="scroll-progress"></div>
+
+    <!-- [NAVIGATION] -->
+    <nav class="sticky top-0 z-40 bg-[#F1F5F2]/90 backdrop-blur-md border-b border-[var(--card-border)] py-4 px-6">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <a href="index.html" class="font-serif font-bold text-lg tracking-widest text-[var(--accent-color)]">
+                I AM : JEONJU
+            </a>
+            <div class="flex flex-wrap gap-1 md:gap-2 justify-end">
+                <a href="index.html" class="nav-btn-inactive">🌿 여행 스팟</a>
+                <a href="stamp.html" class="nav-btn-inactive">🎯 스탬프 투어</a>
+                <a href="test.html" class="nav-btn-active">📋 여행 테스트</a>
+                <a href="guestbook.html" class="nav-btn-inactive">✍️ 방명록</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-4xl mx-auto px-6 py-12">
+        <div class="text-center pt-8 pb-12">
+            <span class="text-xs uppercase tracking-widest font-bold text-[var(--accent-color)] px-3.5 py-1.5 rounded-full bg-[var(--accent-color)]/10 inline-block mb-4">
+                TYPE TEST
+            </span>
+            <h2 class="font-serif text-3xl md:text-4xl font-bold text-[var(--text-main)] mb-3">📋 나의 전주 여행 소울 테스트</h2>
+            <p class="text-xs md:text-sm opacity-80 text-[var(--text-muted)]">간단한 문답을 통해 나만의 감성 여행 유형과 매칭 전주 스팟을 찾아보세요.</p>
+        </div>
+
+        <!-- 테스트 메인 컨테이너 -->
+        <div class="max-w-xl mx-auto bg-[var(--card-bg)] border border-[var(--card-border)] rounded-3xl card-shadow overflow-hidden p-6 md:p-8 min-h-[400px] flex flex-col justify-between">
+            
+            <!-- [START SCREEN] -->
+            <div id="start-screen" class="space-y-6 text-center py-8">
+                <div class="w-20 h-20 bg-emerald-50 text-[var(--accent-color)] border border-emerald-100 rounded-2xl flex items-center justify-center mx-auto text-3xl animate-bounce">
+                    🌿
+                </div>
+                <div class="space-y-2">
+                    <h4 class="font-serif text-2xl font-bold text-[var(--text-main)]">나의 전주 여행 궁합은?</h4>
+                    <p class="text-xs leading-relaxed text-[var(--text-muted)] max-w-sm mx-auto">
+                        몇 가지 사소한 취향 선택만으로 당신의 내면에 숨겨진 전주 여행 지수와 가장 조화로운 로컬 보금자리를 디자인해 드립니다.
+                    </p>
+                </div>
+                <button onclick="startTest()" class="w-full bg-[var(--accent-color)] hover:bg-[var(--text-main)] text-white text-sm font-bold py-4 rounded-xl transition-colors duration-300 shadow-md">
+                    취향 분석 시작하기 →
+                </button>
+            </div>
+
+            <!-- [QUESTION SCREEN] -->
+            <div id="question-screen" class="hidden space-y-6 py-4 flex-1 flex flex-col justify-between">
+                <div>
+                    <!-- 프로그레스바 -->
+                    <div class="flex justify-between items-center text-[10px] text-[var(--text-muted)] font-bold mb-2">
+                        <span id="progress-text">질문 1 / 5</span>
+                        <span id="progress-percent">20%</span>
+                    </div>
+                    <div class="w-full bg-gray-100 h-1.5 rounded-full overflow-hidden">
+                        <div id="progress-bar" class="bg-[var(--accent-color)] h-full transition-all duration-300" style="width: 20%;"></div>
+                    </div>
+
+                    <!-- 질문 텍스트 -->
+                    <h5 id="question-text" class="font-serif text-lg md:text-xl font-bold text-[var(--text-main)] leading-relaxed mt-6 mb-8 text-center min-h-[56px] flex items-center justify-center">
+                        질문 내용이 여기에 들어갑니다.
+                    </h5>
+                </div>
+
+                <!-- 선택지 버튼 -->
+                <div class="space-y-3">
+                    <button onclick="selectOption('A')" id="option-A" class="w-full bg-[var(--bg-color)] border border-[var(--card-border)] hover:border-[var(--accent-color)] hover:bg-emerald-50/50 text-left text-xs md:text-sm font-medium text-[var(--text-main)] p-4 rounded-2xl transition-all duration-200 leading-relaxed card-shadow">
+                        A 선택지 내용
+                    </button>
+                    <button onclick="selectOption('B')" id="option-B" class="w-full bg-[var(--bg-color)] border border-[var(--card-border)] hover:border-[var(--accent-color)] hover:bg-emerald-50/50 text-left text-xs md:text-sm font-medium text-[var(--text-main)] p-4 rounded-2xl transition-all duration-200 leading-relaxed card-shadow">
+                        B 선택지 내용
+                    </button>
+                </div>
+            </div>
+
+            <!-- [LOADING SCREEN] -->
+            <div id="loading-screen" class="hidden text-center py-16 space-y-4">
+                <div class="inline-block animate-spin rounded-full h-8 w-8 border-4 border-[var(--accent-color)] border-t-transparent"></div>
+                <p class="font-serif text-sm font-bold text-[var(--text-main)]">당신의 감성과 전주의 오라(Ora)를 매칭하고 있습니다...</p>
+            </div>
+
+            <!-- [RESULT SCREEN] -->
+            <div id="result-screen" class="hidden space-y-6 py-4">
+                <div class="text-center pb-2">
+                    <span class="text-[10px] uppercase tracking-widest text-[#4E8752] font-bold">Your Soul Travel Type</span>
+                    <h4 id="result-title" class="font-serif text-2xl md:text-3xl font-bold text-[var(--text-main)] mt-1">결과 타이틀</h4>
+                    <p id="result-subtitle" class="text-xs text-gray-500 italic mt-1">"결과 부제목"</p>
+                </div>
+
+                <!-- 결과 설명 -->
+                <div class="bg-green-50/40 border border-green-100 rounded-2xl p-5 space-y-3">
+                    <p id="result-desc" class="text-xs md:text-sm leading-relaxed text-[var(--text-muted)] font-medium text-center">
+                        결과 성향 가이드 설명이 포함되는 영역입니다.
+                    </p>
+                </div>
+
+                <!-- 추천 스폿 & 골든타임 요약 -->
+                <div class="border border-[var(--card-border)] rounded-2xl p-5 bg-white space-y-4 card-shadow">
+                    <div class="flex items-center gap-2 pb-2 border-b border-gray-100">
+                        <span class="text-base">📍</span>
+                        <strong class="text-xs md:text-sm text-[var(--text-main)]">소울 추천 코스: <span id="result-spot-name" class="text-[var(--accent-color)] font-bold">장소명</span></strong>
+                    </div>
+                    <div class="text-xs leading-relaxed text-gray-600">
+                        <span class="font-bold text-gray-800 block mb-1">⏱️ 골든타임 추천:</span>
+                        <p id="result-golden-time" class="font-medium">골든 타임 세부 내용</p>
+                    </div>
+                </div>
+
+                <!-- 하단 액션 버튼들 -->
+                <div class="grid grid-cols-2 gap-3 pt-4">
+                    <button onclick="shareResult()" class="bg-emerald-50 border border-emerald-200 text-[var(--accent-color)] hover:bg-emerald-100 text-xs font-bold py-3.5 rounded-xl transition-all duration-200">
+                        🔗 링크 복사하기
+                    </button>
+                    <button onclick="resetTest()" class="bg-[var(--accent-color)] hover:bg-[var(--text-main)] text-white text-xs font-bold py-3.5 rounded-xl transition-all duration-200 shadow-sm">
+                        🔄 다시 테스트하기
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- [FOOTER] -->
+    <footer class="max-w-4xl mx-auto text-center px-6 py-12 border-t border-[var(--text-main)]/10 mt-16">
+        <p class="font-serif text-lg font-bold">"나의 오래된 전주가 당신에게도 좋은 쉼표가 되기를."</p>
+    </footer>
+
+    <!-- [MODAL DIALOG (공용 알림 팝업)] -->
+    <div id="info-modal" class="fixed inset-0 z-50 bg-black/60 hidden flex items-center justify-center p-4">
+        <div class="bg-white text-gray-800 rounded-2xl max-w-md w-full p-6 shadow-2xl relative transform transition-all duration-300 scale-95 opacity-0" id="modal-content">
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 focus:outline-none text-xl">
+                ✕
+            </button>
+            <div id="modal-body-content"></div>
+            <div class="mt-6 pt-4 border-t border-gray-100 flex justify-end">
+                <button onclick="closeModal()" class="bg-[#1B2A20] text-white px-5 py-2 rounded-lg text-xs font-semibold hover:bg-[#4E8752] transition-colors">
+                    전주 가이드 닫기
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="modal.js"></script>
+    <script>
+        // --- MBTI 스타일 전주 여행 타입 테스트 문항 ---
+        const testQuestions = [
+            {
+                q: "Q1. 전주역에 내린 당신, 첫 여행 발걸음은 어디로 향하나요?",
+                A: "고즈넉한 기와 지붕 아래, 인적 드문 돌담 골목길을 소소히 걷는다.",
+                B: "개성 넘치는 신상 감성 카페와 힙한 로컬 숍들을 우선 방문한다."
+            },
+            {
+                q: "Q2. 여행지에서 예기치 못한 촉촉한 보슬비가 내리기 시작할 때 당신은?",
+                A: "호숫가 수상 도서관이나 전통 도서관 창가에 머무르며 고요히 책장을 펼친다.",
+                B: "실내 미디어아트 동굴 탐험이나 향긋한 수공예 가죽 공방 체험을 하러 간다."
+            },
+            {
+                q: "Q3. 이번 전주 여행 가이드북에서 당신의 눈길을 단번에 사로잡는 사진은?",
+                A: "이슬 맺힌 신선한 초록 풀밭과 거대한 정원이 연출하는 광활하고 싱그러운 자연경관.",
+                B: "도시 재생을 거쳐 붉은 벽돌의 러프한 입체 명암이 도드라지는 실험 미술 공간."
+            },
+            {
+                q: "Q4. 여행의 저무는 저녁을 가장 완벽하게 완성하는 마무리는?",
+                A: "돗자리를 가볍게 펼치고 선선한 바람 속에 호수 노을을 바라보며 도란도란 밤 피크닉.",
+                B: "레트로 빈티지 감성이 넘쳐 흐르는 웨딩거리 구석 맛집에서 즐기는 시원한 반주."
+            },
+            {
+                q: "Q5. 당신이 꿈꾸는 가장 완벽한 힐링 테마의 쉼표란?",
+                A: "아무 생각 없이 자연의 고유한 바람과 물소리에 완전히 몰입해 머리를 비우기.",
+                B: "트렌디한 아이템과 세련된 명화를 마주하며 예술적인 감각 자극을 가득 충전하기."
+            }
+        ];
+
+        // 결과 타입 리스트
+        const resultTypes = {
+            'A': { // 사색형 고득점 (A 점수 3점 이상)
+                title: "🌿 초록빛 사색가",
+                subtitle: "자연의 숨결과 기와 밑 고요 속에서 쉬어가는 감성인",
+                desc: "당신은 번잡한 일상을 벗어나 흙내음과 물빛 정취 속에서 에너지를 채우는 사색형 여행자입니다. 고요히 흐르는 시간과 책 한 장에서 진정한 편안함을 느낍니다.",
+                spotName: "덕진공원 연화정도서관 & 전주수목원",
+                goldenTime: "오전 9시 ~ 11시 사이 (수목원 습지원 우든 액자 쉼터를 투과하는 영롱한 아침 이슬빛의 힐링 순간)"
+            },
+            'B': { // 활동형 고득점 (B 점수 3점 이상)
+                title: "☕ 힙한 골목 탐험가",
+                subtitle: "빛나는 미디어아트와 세련된 로컬 브랜드 거리를 유영하는 트렌드세터",
+                desc: "당신은 구석구석 숨어있는 힙한 신상 소품숍과 트렌디한 카페 투어에서 심장이 뛰는 감각주의자입니다. 공간의 디테일을 눈에 담고 사진으로 기록하는 것을 사랑합니다.",
+                spotName: "객리단길 & 완산벙커 더 스페이스",
+                goldenTime: "오후 1시 ~ 3시 사이 (정갈한 한낮 볕이 들기 시작하는 객리단길 감성 카페 골목 산책 타임)"
+            },
+            'AB': { // 균형형 (A, B 점수가 대등하게 섞임)
+                title: "🎨 아날로그 아티스트",
+                subtitle: "오래된 유산에서 영감을 받고 예술의 온기를 느끼는 크리에이터",
+                desc: "당신은 과거의 기억과 거친 공장지대, 빈티지 수공예품이 자아내는 아날로그 매력에 마음을 빼앗기는 예술가 타입입니다. 레트로 가죽 공방 체험과 미술 전시에 완전히 동화됩니다.",
+                spotName: "웨리단길 공방 & 팔복예술공장",
+                goldenTime: "오후 4시 ~ 6시 사이 (웨딩거리 목조 건물 지붕 위로 길고 붉은 그림자가 고풍스럽게 어린 노을빛 타임)"
+            }
+        };
+
+        let currentIdx = 0;
+        let scoreA = 0;
+        let scoreB = 0;
+
+        function startTest() {
+            document.getElementById('start-screen').classList.add('hidden');
+            document.getElementById('question-screen').classList.remove('hidden');
+            currentIdx = 0;
+            scoreA = 0;
+            scoreB = 0;
+            showQuestion();
+        }
+
+        function showQuestion() {
+            if (currentIdx >= testQuestions.length) {
+                calculateResult();
+                return;
+            }
+
+            const qData = testQuestions[currentIdx];
+            document.getElementById('question-text').textContent = qData.q;
+            document.getElementById('option-A').textContent = qData.A;
+            document.getElementById('option-B').textContent = qData.B;
+
+            // 프로그레스바 및 레이블 업데이트
+            const progressNum = currentIdx + 1;
+            const pct = Math.round((progressNum / testQuestions.length) * 100);
+            document.getElementById('progress-text').textContent = `질문 ${progressNum} / ${testQuestions.length}`;
+            document.getElementById('progress-percent').textContent = `${pct}%`;
+            document.getElementById('progress-bar').style.width = `${pct}%`;
+        }
+
+        function selectOption(choice) {
+            if (choice === 'A') scoreA++;
+            else scoreB++;
+
+            currentIdx++;
+            showQuestion();
+        }
+
+        function calculateResult() {
+            document.getElementById('question-screen').classList.add('hidden');
+            document.getElementById('loading-screen').classList.remove('hidden');
+
+            setTimeout(() => {
+                document.getElementById('loading-screen').classList.add('hidden');
+                document.getElementById('result-screen').classList.remove('hidden');
+
+                let finalTypeKey = 'AB'; // 기본값
+
+                if (scoreA >= 4) {
+                    finalTypeKey = 'A';
+                } else if (scoreB >= 4) {
+                    finalTypeKey = 'B';
+                } else {
+                    finalTypeKey = 'AB';
+                }
+
+                const finalData = resultTypes[finalTypeKey];
+
+                document.getElementById('result-title').textContent = finalData.title;
+                document.getElementById('result-subtitle').textContent = finalData.subtitle;
+                document.getElementById('result-desc').textContent = finalData.desc;
+                document.getElementById('result-spot-name').textContent = finalData.spotName;
+                document.getElementById('result-golden-time').textContent = finalData.goldenTime;
+
+            }, 1200); // 1.2초 후 매칭 완료 연출
+        }
+
+        function resetTest() {
+            document.getElementById('result-screen').classList.add('hidden');
+            document.getElementById('start-screen').classList.remove('hidden');
+        }
+
+        function shareResult() {
+            // 주소 복사하기
+            const dummy = document.createElement('input');
+            const text = window.location.href;
+            document.body.appendChild(dummy);
+            dummy.value = text;
+            dummy.select();
+            document.execCommand('copy');
+            document.body.removeChild(dummy);
+
+            openCustomAlert("🔗 주소 복사 완료", "전주 여행 테스트 주소가 클립보드에 다정히 복사되었습니다! 친구에게 당신의 감성 타입을 공유해 보세요.");
+        }
+
+        /* ===========================
+           Scroll Progress
+        =========================== */
+        function updateScrollProgress(){
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const documentHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const percent = (scrollTop / documentHeight) * 100;
+            document.getElementById("scroll-progress").style.width = percent + "%";
+        }
+
+        window.addEventListener("scroll", updateScrollProgress);
+        window.addEventListener("load", updateScrollProgress);
+        window.addEventListener("resize", updateScrollProgress);
+    </script>
+
+    <script>
+        const canvas = document.getElementById("particle-bg");
+        const ctx = canvas.getContext("2d");
+
+        let particles = [];
+
+        function resizeCanvas(){
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        resizeCanvas();
+        window.addEventListener("resize", resizeCanvas);
+
+        class Particle {
+            constructor(){
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 3 + 1;
+                this.speedX = Math.random() * 0.4 - 0.2;
+                this.speedY = Math.random() * 0.4 - 0.2;
+                this.opacity = Math.random()*0.5+0.2;
+            }
+
+            update(){
+                this.x += this.speedX;
+                this.y += this.speedY;
+
+                if(this.x < 0 || this.x > canvas.width)
+                    this.speedX *= -1;
+
+                if(this.y < 0 || this.y > canvas.height)
+                    this.speedY *= -1;
+            }
+
+            draw(){
+                ctx.beginPath();
+                ctx.fillStyle = `rgba(90,160,120,${this.opacity})`;
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI*2);
+                ctx.fill();
+            }
+        }
+
+        function createParticles(){
+            particles = [];
+            const count = window.innerWidth < 768 ? 35 : 80;
+            for(let i=0;i<count;i++){
+                particles.push(new Particle());
+            }
+        }
+
+        createParticles();
+
+        function animate(){
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p=>{
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+    </script>
+
+</body>
+</html>
